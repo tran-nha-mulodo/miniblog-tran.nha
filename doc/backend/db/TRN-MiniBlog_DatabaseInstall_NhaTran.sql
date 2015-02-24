@@ -24,17 +24,17 @@ DROP TABLE IF EXISTS `comment`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `comment` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `IdPost` int(11) NOT NULL,
-  `Author` int(11) NOT NULL,
+  `Post_id` int(11) NOT NULL,
+  `Author_id` int(11) NOT NULL,
   `Content` varchar(500) NOT NULL,
   `Create_date` datetime NOT NULL,
   `Modify_date` datetime NOT NULL,
   `Status` enum('Available','Delete') NOT NULL,
   PRIMARY KEY (`id`),
-  KEY `fk_comment_Post_idx` (`IdPost`),
-  KEY `fk_comment_User_idx` (`Author`),
-  CONSTRAINT `fk_comment_Post` FOREIGN KEY (`IdPost`) REFERENCES `post` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  CONSTRAINT `fk_comment_User` FOREIGN KEY (`Author`) REFERENCES `userblog` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
+  KEY `fk_comment_Post_idx` (`Post_id`),
+  KEY `fk_comment_User_idx` (`Author_id`),
+  CONSTRAINT `fk_comment_Post` FOREIGN KEY (`Post_id`) REFERENCES `post` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `fk_comment_User` FOREIGN KEY (`Author_id`) REFERENCES `userblog` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -120,4 +120,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2015-02-13 14:18:49
+-- Dump completed on 2015-02-13 16:44:38
