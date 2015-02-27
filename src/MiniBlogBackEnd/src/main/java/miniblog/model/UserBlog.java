@@ -3,6 +3,7 @@ package miniblog.model;
 import java.util.Date;
 import java.util.List;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -20,24 +21,25 @@ public class UserBlog {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
+	@Column
 	private int id;
-	
+	@Column
 	private String Username;
-	
+	@Column
 	private String Password;
-	
+	@Column
 	private String Email;
-	
+	@Column
 	private String Lastname;
-	
+	@Column
 	private String Firstname;
-	
+	@Column
 	private String Gender;
-	
+	@Column
 	private String Birthday;
-	
+	@Column
 	private Date Create_date;
-	
+	@Column
 	private Date Modify_date;
 	
 	@OneToMany(mappedBy="post")

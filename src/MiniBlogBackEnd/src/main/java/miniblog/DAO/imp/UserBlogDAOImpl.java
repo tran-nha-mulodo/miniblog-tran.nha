@@ -6,12 +6,13 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 
 import miniblog.DAO.UserBlogDAO;
 import miniblog.model.UserBlog;;
-
+@Repository
 public class UserBlogDAOImpl implements UserBlogDAO {
-
+		@Autowired
 		private SessionFactory sessionFactory;
 		
 		public void setSessionFactory(SessionFactory sessionFactory) {

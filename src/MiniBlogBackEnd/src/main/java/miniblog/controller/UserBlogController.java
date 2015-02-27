@@ -2,19 +2,19 @@ package miniblog.controller;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.POST;
-import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
-import org.jboss.resteasy.annotations.Form;
-import org.springframework.beans.factory.annotation.Autowired;
-
-import miniblog.DAO.imp.UserBlogDAOImpl;
 import miniblog.model.UserBlog;
 import miniblog.service.UserBlogService;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
 @Path("UserBlog")
+@Controller
+@Produces(MediaType.APPLICATION_JSON)
 public class UserBlogController {
 	@Autowired
 	UserBlogService userService;
@@ -23,8 +23,8 @@ public class UserBlogController {
 	@POST
 	@Path("Register")
 	@Produces(MediaType.APPLICATION_JSON)
-	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
-	public Response register(@Form UserBlog data){
+	@Consumes(MediaType.APPLICATION_JSON)
+	public Response register(UserBlog data){
 		int statuscode = 0;
 		if(!userService.createNewUser(data)){
 			statuscode =userService.getStatusNumber();

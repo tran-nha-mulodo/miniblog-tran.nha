@@ -4,13 +4,16 @@ import java.text.DateFormat;
 import java.util.Date;
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
 import miniblog.DAO.UserBlogDAO;
 import miniblog.DAO.imp.UserBlogDAOImpl;
 import miniblog.model.UserBlog;
 import miniblog.service.UserBlogService;
-
+@Service
 public class UserBlogServiceImpl implements UserBlogService {
-
+	@Autowired
 	UserBlogDAO userDAO;
 	int statusNumber;
 
