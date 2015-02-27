@@ -5,6 +5,7 @@ import java.util.List;
 import miniblog.model.UserBlog;
 
 public interface UserBlogService {
+	
 	public List<UserBlog> getAll();
 
 	public boolean createNewUser(UserBlog user);
@@ -14,4 +15,6 @@ public interface UserBlogService {
 	public boolean updateUser(UserBlog user);
 
 	public UserBlog findBy(int id);
+	
+	public int getStatusNumber();
 }
