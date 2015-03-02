@@ -21,7 +21,6 @@ public class Comment {
 	
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
-	@Column
 	private int id;
 	
 	@ManyToOne
@@ -31,13 +30,9 @@ public class Comment {
 	@ManyToOne
 	@JoinColumn(name="Author_id")
 	private UserBlog Author_id;
-	@Column
 	private String Content;
-	@Column
 	private Date Create_date;
-	@Column
 	private Date Modify_date;
-	@Column
 	private String Status;
 
 	public Post getPost_id() {

@@ -18,14 +18,14 @@ public class UserBlogDAOImpl implements UserBlogDAO {
 		public void setSessionFactory(SessionFactory sessionFactory) {
 			this.sessionFactory = sessionFactory;
 		}
-
+		
 		public void createNewUser(UserBlog user) {
 			Session session = sessionFactory.getCurrentSession();
 			Transaction tx = session.beginTransaction();
 			session.save(user);
 			tx.commit();
 		}
-
+		
 		public List<UserBlog> getAll() {
 			Session session = this.sessionFactory.openSession();
 			List<UserBlog> listUser = session.createQuery("from UserBlog").list();

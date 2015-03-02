@@ -14,12 +14,12 @@ import miniblog.service.UserBlogService;
 @Service
 public class UserBlogServiceImpl implements UserBlogService {
 	@Autowired
-	UserBlogDAO userDAO;
-	int statusNumber;
+	UserBlogDAO userBlogDAOImpl;
+	int statusNumber =200;
 
 	public List<UserBlog> getAll() {
 		
-		return userDAO.getAll();
+		return userBlogDAOImpl.getAll();
 	}
 
 	public boolean createNewUser(UserBlog user) {
@@ -31,8 +31,8 @@ public class UserBlogServiceImpl implements UserBlogService {
 			return false;
 		} 
 		else if(!checkUserExist(user.getUsername())){
-			userDAO.createNewUser(user);
-			this.statusNumber = 200;
+			userBlogDAOImpl.createNewUser(user);
+			//this.statusNumber = 200;
 			return true;
 		}
 		else{
@@ -63,7 +63,7 @@ public class UserBlogServiceImpl implements UserBlogService {
 	 * Private area 
 	 */
 	private boolean checkUserExist(String usernameinput) {
-		return userDAO.check(usernameinput);
+		return userBlogDAOImpl.check(usernameinput);
 	}
 
 	private boolean validateInput(String username, String password, String email,

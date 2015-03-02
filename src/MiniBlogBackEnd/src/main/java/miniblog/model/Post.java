@@ -23,24 +23,18 @@ public class Post {
 	
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
-	@Column
 	private int id;
 	
 	@ManyToOne
 	@JoinColumn(name="Author")
 	private UserBlog Author;
-	@Column
 	private String Title;
-	@Column
 	private String Content;
-	@Column
 	private Date Create_date;
-	@Column
 	private Date Modify_date;
-	@Column
 	private String Status;
 	
-	@OneToMany(mappedBy="Post")
+	@OneToMany(mappedBy="Post_id")
 	private List<Comment> comments;
 
 	public UserBlog getAuthor() {

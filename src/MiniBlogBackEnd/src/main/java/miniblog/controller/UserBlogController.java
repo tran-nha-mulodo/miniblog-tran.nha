@@ -9,7 +9,6 @@ import javax.ws.rs.core.Response;
 
 import miniblog.model.UserBlog;
 import miniblog.service.UserBlogService;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 @Path("UserBlog")
@@ -17,7 +16,7 @@ import org.springframework.stereotype.Controller;
 @Produces(MediaType.APPLICATION_JSON)
 public class UserBlogController {
 	@Autowired
-	UserBlogService userService;
+	UserBlogService userBlogServiceImpl;
 	
 	//Register User
 	@POST
@@ -26,8 +25,8 @@ public class UserBlogController {
 	@Consumes(MediaType.APPLICATION_JSON)
 	public Response register(UserBlog data){
 		int statuscode = 0;
-		if(!userService.createNewUser(data)){
-			statuscode =userService.getStatusNumber();
+		if(!userBlogServiceImpl.createNewUser(data)){
+			statuscode =userBlogServiceImpl.getStatusNumber();
 			switch (statuscode){
 			 case 1001:	 
 				 return Response.status(statuscode).entity("Validate Error!!!").build();
@@ -35,6 +34,6 @@ public class UserBlogController {
 				 return Response.status(statuscode).entity("Username has already exist!!!").build();
 			}
 	}
-		return Response.status(userService.getStatusNumber()).entity("New user has created!!!").build();
+		return Response.status(userBlogServiceImpl.getStatusNumber()).entity("New user has created!!!").build();
 	}
 }

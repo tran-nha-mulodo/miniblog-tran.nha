@@ -21,31 +21,21 @@ public class UserBlog {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	@Column
 	private int id;
-	@Column
 	private String Username;
-	@Column
 	private String Password;
-	@Column
 	private String Email;
-	@Column
 	private String Lastname;
-	@Column
 	private String Firstname;
-	@Column
 	private String Gender;
-	@Column
 	private String Birthday;
-	@Column
 	private Date Create_date;
-	@Column
 	private Date Modify_date;
 	
-	@OneToMany(mappedBy="post")
+	@OneToMany(mappedBy="Author")
 	private List<Post> posts;
 	
-	@OneToMany(mappedBy="comment")
+	@OneToMany(mappedBy="Author_id")
 	private List<Comment> comments;
 
 	public List<Post> getPosts() {
