@@ -30,14 +30,14 @@ public class UserBlogServiceImpl implements UserBlogService {
 			this.statusNumber = 1001;
 			return false;
 		} 
-		else if(!checkUserExist(user.getUsername())){
-			userBlogDAOImpl.createNewUser(user);
-			//this.statusNumber = 200;
-			return true;
-		}
-		else{
+		else if(checkUserExist(user.getUsername())){
+			
 			this.statusNumber = 2001;
 			return false;
+		}
+		else{
+			userBlogDAOImpl.createNewUser(user);
+			return true;
 			}
 	}
 
@@ -46,16 +46,38 @@ public class UserBlogServiceImpl implements UserBlogService {
 		return false;
 	}
 
-	public boolean updateUser(UserBlog user) {
-		// TODO Auto-generated method stub
-		return false;
+	public boolean updateUser(int userID, UserBlog user) {
+		boolean valid = validateInput(user.getUsername(), user.getPassword(),
+				user.getEmail(), user.getLastname(), user.getFirstname(),
+				user.getBirthday(), user.getGender(), user.getCreate_date(),
+				user.getModify_date());
+		if (!valid) {
+			this.statusNumber = 1001;
+			return false;
+		} else {
+			userBlogDAOImpl.updateUserInfo(userID, user);
+			return true;
+		}
 	}
 
 	public UserBlog findBy(int id) {
-		// TODO Auto-generated method stub
-		return null;
+		return userBlogDAOImpl.getInfo(id);
 	}
-
+	
+	public boolean changePassword(int id, String password, String newPassword) {
+		if(!validateInput(password,newPassword)){
+			this.statusNumber = 1001;
+			return false;
+		}
+		if(!checkPassword(id, password)){
+			this.statusNumber = 2003;
+			return false;
+		}else{
+			userBlogDAOImpl.changePassword(id, newPassword);
+			return true;
+		}
+	}
+	
 	public int getStatusNumber() {
 		return this.statusNumber;
 	}
@@ -70,11 +92,10 @@ public class UserBlogServiceImpl implements UserBlogService {
 			String lastname, String firstname, String birthday, String gender,
 			Date createDate, Date modifyDate) {
 		if (null == username || null == email || null == lastname
-				|| null == firstname || null == birthday || null == gender
-				|| null == createDate || null == modifyDate) {		
+				|| null == firstname || null == birthday || null == gender) {		
 			return false;
 		}
-		if (!lastname.matches("^[ A-z]+") || firstname.matches("^[ A-z]+")
+		if (!lastname.matches("^[ A-z]+") || !firstname.matches("^[ A-z]+")
 				|| lastname.length() > 40 || firstname.length() > 40) {
 			return false;
 		}
@@ -92,9 +113,23 @@ public class UserBlogServiceImpl implements UserBlogService {
 		if(!gender.matches("[a-zA-Z]+")){
 			return false;
 		}
-		if(!birthday.matches("(0?[1-9]|1[012])-([12][0-9]|3[01]|0?[1-9])-((?:19|20)\\d\\d)")){
+		if(!birthday.matches("(0?[1-9]|1[012])-([12][0-9]|3[01]|0?[1-9])-((?:19|20)\\d\\d)")){ /* Formating inputted String must be mm-dd-yyyy */
 			return false;
 		}
 		return true;
 	}
+	
+	private boolean validateInput(String password, String newPassword) {
+		if (null == password || password.length() > 40 || null == newPassword
+				|| newPassword.length() > 40) {
+			return false;
+		}
+		return true;
+	}
+	
+	private boolean checkPassword(int id, String password){
+		return userBlogDAOImpl.check(id, password);
+	}
+
+	
 }

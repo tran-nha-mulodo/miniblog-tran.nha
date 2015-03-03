@@ -12,9 +12,11 @@ public interface UserBlogService {
 
 	public boolean deleteUser(int userID);
 
-	public boolean updateUser(UserBlog user);
+	public boolean updateUser(int userID,UserBlog user);
 
 	public UserBlog findBy(int id);
+	
+	public boolean changePassword(int id, String password, String newPassword);
 	
 	public int getStatusNumber();
 }

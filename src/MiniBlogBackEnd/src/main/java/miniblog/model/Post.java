@@ -1,5 +1,6 @@
 package miniblog.model;
 
+import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
@@ -13,9 +14,13 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import org.codehaus.jackson.annotate.JsonAutoDetect;
+import org.codehaus.jackson.annotate.JsonAutoDetect.Visibility;
+import org.codehaus.jackson.annotate.JsonProperty;
+
 @Entity
 @Table(name="post")
-public class Post {
+public class Post{
 	
 	public Post() {
 		// TODO Auto-generated constructor stub

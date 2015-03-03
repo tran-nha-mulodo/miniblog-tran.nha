@@ -1,5 +1,6 @@
 package miniblog.model;
 
+import java.io.Serializable;
 import java.util.Date;
 
 import javax.persistence.Column;
@@ -11,9 +12,12 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import org.codehaus.jackson.annotate.JsonAutoDetect;
+import org.codehaus.jackson.annotate.JsonProperty;
+
 @Entity
 @Table(name="comment")
-public class Comment {
+public class Comment{
 	
 	public Comment() {
 		// TODO Auto-generated constructor stub
@@ -21,15 +25,18 @@ public class Comment {
 	
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
+	@JsonProperty
 	private int id;
 	
 	@ManyToOne
 	@JoinColumn(name="Post_id")
+	@JsonProperty
 	private Post Post_id;
 	
 	@ManyToOne
 	@JoinColumn(name="Author_id")
 	private UserBlog Author_id;
+	
 	private String Content;
 	private Date Create_date;
 	private Date Modify_date;
