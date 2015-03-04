@@ -2,10 +2,12 @@ package miniblog.DAO.imp;
 
 import java.util.List;
 
+import org.apache.log4j.pattern.FullLocationPatternConverter;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
+import org.hibernate.transform.Transformers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -34,12 +36,25 @@ public class UserBlogDAOImpl implements UserBlogDAO {
 		List<UserBlog> listUser = session.createQuery("from UserBlog").list();
 		return listUser;
 	}
-	
-	public UserBlog getInfo(int id){
+
+	public List<UserBlog> searchUserByName(String searchString) {
+		Session session = this.sessionFactory.getCurrentSession();
+		Transaction tx = session.beginTransaction();
+		Query query = session
+				.createSQLQuery(
+						"SELECT userblog.Username, userblog.Firstname, userblog.Lastname , userblog.Gender FROM miniblog.userblog"
+								+ " WHERE MATCH (Username,Firstname,Lastname) AGAINST (:searchString)")
+				.setParameter("searchString", searchString)
+				.setResultTransformer(Transformers.ALIAS_TO_ENTITY_MAP);
+		List<UserBlog> users = query.list();
+		return users;
+	}
+
+	public UserBlog getInfo(int id) {
 		Session session = sessionFactory.getCurrentSession();
 		Transaction tx = session.beginTransaction();
-		UserBlog user = (UserBlog)session.get(UserBlog.class, id);
-		//tx.commit();
+		UserBlog user = (UserBlog) session.get(UserBlog.class, id);
+		// tx.commit();
 		return user;
 	}
 
@@ -50,12 +65,12 @@ public class UserBlogDAOImpl implements UserBlogDAO {
 		session.delete(user);
 		tx.commit();
 	}
-	
-	public void updateUserInfo(int userID, UserBlog newInfo){
+
+	public void updateUserInfo(int userID, UserBlog newInfo) {
 		Session session = sessionFactory.getCurrentSession();
 		Transaction tx = session.beginTransaction();
-		UserBlog user = (UserBlog)session.load(UserBlog.class, userID);
-		//user.setUsername(newInfo.getUsername());
+		UserBlog user = (UserBlog) session.load(UserBlog.class, userID);
+		// user.setUsername(newInfo.getUsername());
 		user.setLastname(newInfo.getLastname());
 		user.setFirstname(newInfo.getFirstname());
 		user.setEmail(newInfo.getEmail());
@@ -78,17 +93,30 @@ public class UserBlogDAOImpl implements UserBlogDAO {
 		}
 		return true;
 	}
-	
-	public boolean check(int userID,String password){
+
+	public boolean check(int userID, String password) {
 		Session session = sessionFactory.getCurrentSession();
 		Transaction tx = session.beginTransaction();
-		UserBlog userBlog = (UserBlog)session.load(UserBlog.class, userID);
-		if(userBlog.getPassword().equalsIgnoreCase(password)){
+		UserBlog userBlog = (UserBlog) session.load(UserBlog.class, userID);
+		if (userBlog.getPassword().equalsIgnoreCase(password)) {
 			return true;
 		}
 		return false;
 	}
-	
+
+	public boolean check(String username, String password) {
+		Session session = sessionFactory.getCurrentSession();
+		Transaction tx = session.beginTransaction();
+		Query query = session
+				.createQuery("FROM UserBlog U WHERE U.Username = :username AND U.Password = :password");
+		query.setParameter("username", username);
+		query.setParameter("password", password);
+		if (query.list().size() > 0) {
+			return true;
+		}
+		return false;
+	}
+
 	/* Change/update password to database */
 	public void changePassword(int userID, String newpass) {
 

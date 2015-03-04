@@ -9,6 +9,8 @@ public interface UserBlogDAO {
 
 	public List<UserBlog> getAll();
 	
+	public List<UserBlog> searchUserByName(String username);
+	
 	public UserBlog getInfo (int id);
 
 	public void deleteUser(int userID);
@@ -20,5 +22,7 @@ public interface UserBlogDAO {
 	public boolean check(String username);
 	
 	public boolean check(int userID,String password);
+	
+	public boolean check(String username,String password);
 	
 }

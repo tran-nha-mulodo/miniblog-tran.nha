@@ -18,6 +18,7 @@ import javax.ws.rs.core.Response;
 import miniblog.model.UserBlog;
 import miniblog.modelform.UserForm;
 import miniblog.service.UserBlogService;
+import miniblog.service.imp.UserBlogServiceImpl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -29,7 +30,7 @@ public class UserBlogController {
 	@Autowired
 	UserBlogService userBlogServiceImpl;
 	int statuscode;
-	
+
 	// Register User
 	@POST
 	@Path("Register")
@@ -68,9 +69,10 @@ public class UserBlogController {
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
 	public Response changePassword(@FormParam("id") int id,
-			@FormParam("Password") String password, @FormParam("NewPassword") String newpassword) {
+			@FormParam("Password") String password,
+			@FormParam("NewPassword") String newpassword) {
 		statuscode = 0;
-		if(!userBlogServiceImpl.changePassword(id, password, newpassword)){
+		if (!userBlogServiceImpl.changePassword(id, password, newpassword)) {
 			statuscode = userBlogServiceImpl.getStatusNumber();
 			switch (statuscode) {
 			case 1001:
@@ -81,14 +83,15 @@ public class UserBlogController {
 						.build();
 			}
 		}
-		return Response.status(userBlogServiceImpl.getStatusNumber()).entity("New password has changed!!!").build();
+		return Response.status(userBlogServiceImpl.getStatusNumber())
+				.entity("New password has changed!!!").build();
 	}
-	
+
 	@PUT
 	@Path("Update")
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_JSON)
-	public Response changePassword(UserForm data) {
+	public Response updateInfo(UserForm data) {
 		Date today = new Date();
 		UserBlog user = new UserBlog();
 		user.setUsername(data.getUsername());
@@ -100,27 +103,71 @@ public class UserBlogController {
 		user.setBirthday(data.getBirthday());
 		user.setModify_date(today);
 		statuscode = 0;
-		if(!userBlogServiceImpl.updateUser(data.getId(), user)){
+		if (!userBlogServiceImpl.updateUser(data.getId(), user)) {
 			statuscode = userBlogServiceImpl.getStatusNumber();
-			switch (statuscode){
+			switch (statuscode) {
 			case 1001:
 				return Response.status(statuscode).entity("Validate Error!!!")
 						.build();
 			}
 		}
-		return Response.status(userBlogServiceImpl.getStatusNumber()).entity("New Info has updated!!!").build();
+		return Response.status(userBlogServiceImpl.getStatusNumber())
+				.entity("New Info has updated!!!").build();
 	}
-	
+
 	@GET
 	@Path("Info/{id}")
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response getInfo(@PathParam("id")int id){
+	public Response getInfo(@PathParam("id") int id) {
 		statuscode = 0;
-		if(null == userBlogServiceImpl.findBy(id)){
-			statuscode=2005;
+		if (null == userBlogServiceImpl.findBy(id)) {
+			statuscode = 2005;
 			return Response.status(statuscode).entity("No result!!!").build();
 		}
-		return Response.status(userBlogServiceImpl.getStatusNumber()).entity(userBlogServiceImpl.findBy(id)).build();
+		return Response.status(userBlogServiceImpl.getStatusNumber())
+				.entity(userBlogServiceImpl.findBy(id)).build();
 
+	}
+
+	@POST
+	@Path("Login")
+	@Produces(MediaType.APPLICATION_JSON)
+	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+	public Response loginUser(@FormParam("Username") String username,
+			@FormParam("Password") String password) {
+		statuscode = 0;
+		if (userBlogServiceImpl.loginUser(username, password)) {
+			statuscode = userBlogServiceImpl.getStatusNumber();
+			switch (statuscode) {
+			case 1001:
+				return Response.status(statuscode).entity("Validate Error!!!")
+						.build();
+			case 2003:
+				return Response.status(statuscode).entity("Wrong Password!!!")
+						.build();
+			}
+		}
+		return Response.status(userBlogServiceImpl.getStatusNumber())
+				.entity("Login Successful!!!").build();
+	}
+
+	@GET
+	@Path("Search/{name}")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response searchUserByName(@PathParam("name") String searchName) {
+		statuscode = 0;
+		if (null == userBlogServiceImpl.searchUser(searchName)) {
+			statuscode = userBlogServiceImpl.getStatusNumber();
+			switch (statuscode) {
+			case 1001:
+				return Response.status(statuscode).entity("Validate Error!!!")
+						.build();
+			case 2004:
+				return Response.status(statuscode)
+						.entity("No result has found!!!").build();
+			}
+		}
+		return Response.status(userBlogServiceImpl.getStatusNumber())
+				.entity(userBlogServiceImpl.searchUser(searchName)).build();
 	}
 }
