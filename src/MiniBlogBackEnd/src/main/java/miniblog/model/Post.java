@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -39,7 +40,7 @@ public class Post{
 	private Date Modify_date;
 	private String Status;
 	
-	@OneToMany(mappedBy="Post_id")
+	@OneToMany(mappedBy="Post_id",cascade=CascadeType.ALL)
 	private List<Comment> comments;
 
 	public UserBlog getAuthor() {

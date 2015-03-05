@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -16,6 +17,7 @@ import org.codehaus.jackson.annotate.JsonAutoDetect;
 import org.codehaus.jackson.annotate.JsonIgnore;
 import org.codehaus.jackson.annotate.JsonProperty;
 import org.codehaus.jackson.annotate.JsonAutoDetect.Visibility;
+import org.hibernate.annotations.Cascade;
 
 @Entity
 @Table(name = "userblog")
@@ -39,11 +41,11 @@ public class UserBlog {
 	private Date Create_date;
 	private Date Modify_date;
 	
-	@OneToMany(mappedBy="Author")
+	@OneToMany(mappedBy="Author",cascade=CascadeType.ALL)
 	@JsonIgnore
 	private List<Post> posts;
 	
-	@OneToMany(mappedBy="Author_id")
+	@OneToMany(mappedBy="Author_id",cascade=CascadeType.ALL)
 	@JsonIgnore
 	private List<Comment> comments;
 

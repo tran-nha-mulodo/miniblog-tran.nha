@@ -42,12 +42,16 @@ public class UserBlogDAOImpl implements UserBlogDAO {
 		Transaction tx = session.beginTransaction();
 		Query query = session
 				.createSQLQuery(
-						"SELECT userblog.Username, userblog.Firstname, userblog.Lastname , userblog.Gender FROM miniblog.userblog"
-								+ " WHERE MATCH (Username,Firstname,Lastname) AGAINST (:searchString)")
+						"SELECT userblog.id, userblog.Username, userblog.Firstname, userblog.Lastname , userblog.Gender "
+								+ "FROM miniblog.userblog WHERE MATCH (Username,Firstname,Lastname) AGAINST (:searchString)")
 				.setParameter("searchString", searchString)
 				.setResultTransformer(Transformers.ALIAS_TO_ENTITY_MAP);
-		List<UserBlog> users = query.list();
-		return users;
+		if (query.list().size()<1) {
+			return null;
+		}else {
+			return query.list();
+		}
+
 	}
 
 	public UserBlog getInfo(int id) {
@@ -61,8 +65,17 @@ public class UserBlogDAOImpl implements UserBlogDAO {
 	public void deleteUser(int userID) {
 		Session session = sessionFactory.getCurrentSession();
 		Transaction tx = session.beginTransaction();
-		UserBlog user = (UserBlog) session.load(UserBlog.class, userID);
+		UserBlog user = (UserBlog) session.get(UserBlog.class, userID);
 		session.delete(user);
+		tx.commit();
+	}
+
+	public void deleteUser(String userName) {
+		Session session = sessionFactory.getCurrentSession();
+		Transaction tx = session.beginTransaction();
+		Query query = session.createQuery(
+				"DELETE FROM Users WHERE username=:username").setParameter(
+				"username", userName);
 		tx.commit();
 	}
 

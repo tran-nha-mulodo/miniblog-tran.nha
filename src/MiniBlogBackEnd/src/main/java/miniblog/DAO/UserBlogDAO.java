@@ -15,6 +15,8 @@ public interface UserBlogDAO {
 
 	public void deleteUser(int userID);
 	
+	public void deleteUser(String userName);
+	
 	public void updateUserInfo(int userID, UserBlog newInfo);
 	
 	public void changePassword(int userID, String newpass);
