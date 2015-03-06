@@ -27,6 +27,7 @@ public class UserControllerTest {
 	
 	@Test
 	public void registerCode200(){
+		assertEquals(true, userController.deleteUser("tester0100"));
 		filldata();
 		assertEquals(200, userController.register(getData()).getStatus());
 	}
@@ -50,8 +51,8 @@ public class UserControllerTest {
 	@Test
 	public void changePasswordCode200(){
 		int id = 13;
-		String password = "222222";
-		String newpassword = "222222";
+		String password = "111111";
+		String newpassword = "111111";
 		assertEquals(200, userController.changePassword(id, password, newpassword).getStatus());
 	}
 	
@@ -59,7 +60,7 @@ public class UserControllerTest {
 	public void changePasswordCode1001(){
 		int id = 13;
 		String password = null;
-		String newpassword = "222222";
+		String newpassword = "111111";
 		assertEquals(1001, userController.changePassword(id, password, newpassword).getStatus());
 	}
 	
@@ -67,7 +68,7 @@ public class UserControllerTest {
 	public void changePasswordCode2003(){
 		int id = 13;
 		String password = "111111";
-		String newpassword = "222222";
+		String newpassword = "111111";
 		assertEquals(2003, userController.changePassword(id, password, newpassword).getStatus());
 	}
 	
@@ -145,7 +146,7 @@ public class UserControllerTest {
 	}
 	 private void filldata(){
 		 	data = new UserForm();
-			this.data.setUsername("tester0001");
+			this.data.setUsername("tester0100");
 			this.data.setPassword("000001");
 			this.data.setFirstname("Nha Test");
 			this.data.setLastname("Tran Test");

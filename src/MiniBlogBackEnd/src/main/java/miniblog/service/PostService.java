@@ -8,14 +8,19 @@ public interface PostService {
 	
 	public List<Post> getAll();
 	
-	public void updatePost(int postID, Post post);
+	public List<Post> getPostForUser(int authorID);
 	
-	public void deletePost(int postID);
+	public List<Post> searchPost(String searchString);
 	
-	public void changeStatus(int postID);
+	public boolean createNewPost(Post post);
 	
-	public List<Post> getAllByAuthor(int authorID);
+	public boolean updatePost(int postID, Post post);
 	
-	public boolean checkDelete(int post);
+	public boolean deletePost(int postID);
 	
+	public boolean changeStatus(int postID);
+	
+	public Post getPost(int postID);
+	
+	public int getStatusNumber();
 }

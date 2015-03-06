@@ -57,6 +57,15 @@ public class UserBlogServiceImpl implements UserBlogService {
 		// TODO Auto-generated method stub
 		return false;
 	}
+	
+	public boolean deleteUser(String username){
+		if(!validateInput(username)){
+			return false;
+		}else{
+			userBlogDAOImpl.deleteUser(username);
+			return true;
+		}
+	}
 
 	public boolean updateUser(int userID, UserBlog user) {
 		boolean valid = validateInput(user.getUsername(), user.getPassword(),

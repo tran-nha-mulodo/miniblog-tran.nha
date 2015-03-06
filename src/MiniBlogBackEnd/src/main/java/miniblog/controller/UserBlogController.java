@@ -175,4 +175,8 @@ public class UserBlogController {
 		return Response.status(statuscode)
 				.entity(userBlogServiceImpl.searchUser(searchName)).build();
 	}
+	
+	public boolean deleteUser(String username){
+		return userBlogServiceImpl.deleteUser(username);
+	}
 }

@@ -13,6 +13,8 @@ public interface UserBlogService {
 	public boolean createNewUser(UserBlog user);
 
 	public boolean deleteUser(int userID);
+	
+	public boolean deleteUser(String username);
 
 	public boolean updateUser(int userID,UserBlog user);
 

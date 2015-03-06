@@ -25,8 +25,10 @@ public class UserServiceTest {
 
 	@Test
 	public void UserController_register_update() {
+		assertEquals(true, userBlogServiceImp.deleteUser("tester0001"));
 		UserBlog user = new UserBlog();
-		user.setUsername("admin");
+		user.setUsername("tester0001");
+		user.setPassword("test123");
 		user.setFirstname("Nha Test");
 		user.setLastname("Tran Test");
 		user.setEmail("abcd@com.vn");
@@ -36,6 +38,7 @@ public class UserServiceTest {
 		user.setModify_date(new Date());
 		assertEquals(true, userBlogServiceImp.createNewUser(user));
 		int id = 13;
+		user.setEmail("abcdf@com.vn");
 		assertEquals(true, userBlogServiceImp.updateUser(id, user));
 	}
 
@@ -57,7 +60,7 @@ public class UserServiceTest {
 	@Test
 	public void UserController_changePassword(){
 		int id = 13;
-		String password = "222222";
+		String password = "111111";
 		String newPassword = "111111";
 		assertEquals(true, userBlogServiceImp.changePassword(id, password, newPassword));
 	}
