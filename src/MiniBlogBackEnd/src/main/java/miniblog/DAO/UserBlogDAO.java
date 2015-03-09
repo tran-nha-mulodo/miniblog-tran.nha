@@ -21,6 +21,8 @@ public interface UserBlogDAO {
 	public void updateUserInfo(int userID, UserBlog newInfo);
 	
 	public void changePassword(int userID, String newpass);
+	
+	public UserBlog getUser(String username);
 
 	public boolean check(String username);
 	

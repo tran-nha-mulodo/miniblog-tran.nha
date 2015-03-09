@@ -17,8 +17,10 @@ import miniblog.model.UserBlog;
 ;
 @Repository
 public class UserBlogDAOImpl implements UserBlogDAO {
+	
 	@Autowired
 	private SessionFactory sessionFactory;
+	
 
 	public void setSessionFactory(SessionFactory sessionFactory) {
 		this.sessionFactory = sessionFactory;
@@ -43,8 +45,10 @@ public class UserBlogDAOImpl implements UserBlogDAO {
 		Transaction tx = session.beginTransaction();
 		Query query = session
 				.createSQLQuery(
-						"SELECT userblog.id, userblog.Username, userblog.Firstname, userblog.Lastname , userblog.Gender "
-							+ "FROM miniblog.userblog WHERE MATCH (Username,Firstname,Lastname) AGAINST (:searchString)")
+						"SELECT userblog.id, userblog.Username, userblog.Firstname,"
+						+ " userblog.Lastname , userblog.Gender "
+							+ "FROM miniblog.userblog WHERE MATCH (Username,Firstname,Lastname) "
+							+ "AGAINST (:searchString)")
 				.setParameter("searchString", searchString)
 				.setResultTransformer(Transformers.ALIAS_TO_ENTITY_MAP);
 		if (query.list().size()<1) {
@@ -140,5 +144,13 @@ public class UserBlogDAOImpl implements UserBlogDAO {
 		user.setPassword(newpass);
 		session.update(user);
 		tx.commit();
+	}
+	
+	public UserBlog getUser(String username){
+		Session session = sessionFactory.getCurrentSession();
+		Transaction tx = session.beginTransaction();
+		UserBlog user = (UserBlog) session
+				.createQuery("FROM UserBlog U WHERE U.Username = :username").setParameter("username", username).uniqueResult();
+		return user;
 	}
 }

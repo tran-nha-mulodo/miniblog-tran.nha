@@ -24,5 +24,7 @@ public interface UserBlogService {
 	
 	public boolean changePassword(int id, String password, String newPassword);
 	
+	public UserBlog getUserBlog();
+	
 	public int getStatusNumber();
 }

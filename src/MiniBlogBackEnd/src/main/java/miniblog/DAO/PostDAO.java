@@ -23,4 +23,6 @@ public interface PostDAO {
 	public void changeStatus(int postID);
 	
 	public boolean isDelete(int postID);
+	
+	public boolean isExist(int postID);
 }

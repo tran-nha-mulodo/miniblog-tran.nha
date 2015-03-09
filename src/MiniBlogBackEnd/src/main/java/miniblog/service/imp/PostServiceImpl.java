@@ -3,11 +3,12 @@ package miniblog.service.imp;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import miniblog.DAO.PostDAO;
 import miniblog.model.Post;
 import miniblog.service.PostService;
-
+@Service
 public class PostServiceImpl implements PostService {
 
 	@Autowired
@@ -15,52 +16,86 @@ public class PostServiceImpl implements PostService {
 	int statusNumber = 200;
 
 	public List<Post> getAll() {
-		// TODO Auto-generated method stub
-		return null;
+		return postDAOImpl.getAll();
 	}
 
 	public List<Post> getPostForUser(int authorID) {
-		// TODO Auto-generated method stub
-		return null;
+		if(null == postDAOImpl.getAllByAuthor(authorID)){
+			statusNumber = 3003;
+			return postDAOImpl.getAllByAuthor(authorID);
+		}
+		return postDAOImpl.getAllByAuthor(authorID);
 	}
 
 	public List<Post> searchPost(String searchString) {
-		// TODO Auto-generated method stub
-		return null;
+		return postDAOImpl.searchPost(searchString);
 	}
 
 	public boolean createNewPost(Post post) {
-		// TODO Auto-generated method stub
-		return false;
+		boolean valid = validateInput(post.getAuthor().getId(),
+				post.getTitle(), post.getContent(), post.getStatus());
+		if (!valid) {
+			this.statusNumber = 1001;
+			return false;
+		} else {
+			postDAOImpl.createNewPost(post);
+			return true;
+		}
 	}
 
 	public boolean updatePost(int postID, Post post) {
-		// TODO Auto-generated method stub
-		return false;
+		boolean valid = validateInput(post.getAuthor().getId(),
+				post.getTitle(), post.getContent(), post.getStatus());
+		if (!valid) {
+			this.statusNumber = 1001;
+			return false;
+		} else {
+			postDAOImpl.updatePost(postID, post);
+			return true;
+		}
 	}
 
 	public boolean deletePost(int postID) {
-		// TODO Auto-generated method stub
-		return false;
+		if (!checkIsExist(postID)) {
+			this.statusNumber = 3001;
+			return false;
+		}
+		if (!checkIsDelete(postID)) {
+			this.statusNumber = 3002;
+			return false;
+		} else {
+			postDAOImpl.deletePost(postID);
+			return true;
+		}
 	}
 
 	public boolean changeStatus(int postID) {
-		// TODO Auto-generated method stub
-		return false;
+		if(checkIsExist(postID)){
+			postDAOImpl.changeStatus(postID);
+			return true;
+		}
+		else{
+			this.statusNumber = 3001;
+			return false;
+		}
 	}
 
 	public Post getPost(int postID) {
-		// TODO Auto-generated method stub
-		return null;
+		if(null == postDAOImpl.getPost(postID)){
+			statusNumber = 3003;
+		}
+		return postDAOImpl.getPost(postID);
 	}
 
 	public int getStatusNumber() {
 		return this.statusNumber;
 	}
 
-	/*
-	 * Private Area
-	 */
+	
+	/*--------------------------------------------------------------------
+	 --------------------------- Private Area ----------------------------
+	 ---------------------------------------------------------------------*/
+	
 	private boolean validateInput(int authorID, String title, String content,
 			String status) {
 		if (authorID == 0 || null == title || null == content || null == status) {
@@ -72,13 +107,24 @@ public class PostServiceImpl implements PostService {
 		if (content.length() > 2000) {
 			return false;
 		}
-		if (!status.equals("Available") || !status.equals("Delete")){
+		if (!(!status.equalsIgnoreCase("Available") || !status.equalsIgnoreCase("Delete"))) {
 			return false;
 		}
 		return true;
 	}
-	
-	private boolean checkIsDelete(int postID){
+
+	private boolean validateInput(String status) {
+		if (!status.equalsIgnoreCase("Available") || !status.equalsIgnoreCase("Delete")) {
+			return false;
+		}
+		return true;
+	}
+
+	private boolean checkIsDelete(int postID) {
 		return postDAOImpl.isDelete(postID);
+	}
+
+	private boolean checkIsExist(int postID) {
+		return postDAOImpl.isExist(postID);
 	}
 }

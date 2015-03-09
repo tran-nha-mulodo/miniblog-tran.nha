@@ -16,6 +16,7 @@ import miniblog.service.UserBlogService;
 public class UserBlogServiceImpl implements UserBlogService {
 	@Autowired
 	UserBlogDAO userBlogDAOImpl;
+	UserBlog user;
 	int statusNumber = 200;
 
 	public List<UserBlog> getAll() {
@@ -95,6 +96,7 @@ public class UserBlogServiceImpl implements UserBlogService {
 			this.statusNumber = 2003;
 			return false;
 		} else {
+			this.user = userBlogDAOImpl.getUser(user);
 			return true;
 		}
 	}
@@ -112,18 +114,23 @@ public class UserBlogServiceImpl implements UserBlogService {
 			return true;
 		}
 	}
+	
+	public UserBlog getUserBlog(){
+		return this.user;
+	}
 
 	public int getStatusNumber() {
 		return this.statusNumber;
 	}
 
-	/*
-	 * Private area
-	 */
+	/*--------------------------------------------------------------------
+	 --------------------------- Private Area ----------------------------
+	 ---------------------------------------------------------------------*/
+	
 	private boolean checkUserExist(String usernameinput) {
 		return userBlogDAOImpl.check(usernameinput);
 	}
-
+	
 	private boolean validateInput(String username, String password,
 			String email, String lastname, String firstname, String birthday,
 			String gender, Date createDate, Date modifyDate) {

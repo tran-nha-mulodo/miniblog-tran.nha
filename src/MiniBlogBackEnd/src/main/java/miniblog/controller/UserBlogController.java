@@ -27,9 +27,11 @@ import org.springframework.stereotype.Controller;
 @Controller
 @Produces(MediaType.APPLICATION_JSON)
 public class UserBlogController {
+	
 	@Autowired
 	UserBlogService userBlogServiceImpl;
 	int statuscode;
+	UserBlog user;
 
 	// Register User
 	@POST
@@ -151,6 +153,7 @@ public class UserBlogController {
 						.build();
 			}
 		}
+		this.user = userBlogServiceImpl.getUserBlog();
 		return Response.status(statuscode)
 				.entity("Login Successful!!!").build();
 	}
@@ -178,5 +181,9 @@ public class UserBlogController {
 	
 	public boolean deleteUser(String username){
 		return userBlogServiceImpl.deleteUser(username);
+	}
+	
+	public UserBlog getUser(){
+		return user;
 	}
 }

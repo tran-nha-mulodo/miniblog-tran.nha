@@ -5,14 +5,17 @@ import java.util.List;
 import miniblog.DAO.PostDAO;
 import miniblog.model.Post;
 
+import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
+import org.hibernate.transform.Transformers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 @Repository
 public class PostDAOImpl implements PostDAO {
+	
 	@Autowired
 	SessionFactory sessionFactory;
 
@@ -27,24 +30,28 @@ public class PostDAOImpl implements PostDAO {
 		Session session = sessionFactory.getCurrentSession();
 		Transaction tx = session.beginTransaction();
 		List<Post> posts = session.createQuery("FROM Post").list();
-		return posts;
+		return checkNullListResult(posts);
 	}
 
 	public List<Post> getAllByAuthor(int authorID) {
 		Session session = sessionFactory.getCurrentSession();
 		Transaction tx = session.beginTransaction();
 		List<Post> posts = session
-				.createQuery("FROM Posts P WHERE p.Author.id = :authorID")
+				.createQuery("FROM Posts P WHERE P.Author.id = :authorID ORDER BY P.Modify_date DESC")
 				.setParameter("authorID", authorID).list();
-		if (posts.size() < 1) {
-			return null;
-		}
-		return posts;
+		return checkNullListResult(posts);
 	}
 	
 	public List<Post> searchPost(String searchString) {
-		// TODO Auto-generated method stub
-		return null;
+		Session session = sessionFactory.getCurrentSession();
+		Transaction tx = session.beginTransaction();
+		Query query = session.createSQLQuery("SELECT post.id, post.Author, post.Title, post.Content, "
+				+ "post.Create_date, post.Modify_date. post.Status "
+				+ "FROM miniblog.post WHERE MATCH(Title,Content) AGAINST(:searchString) "
+				+ "ORDER BY post.Modify_date DESC")
+				.setParameter("searchString", searchString).setResultTransformer(Transformers.ALIAS_TO_ENTITY_MAP);
+		List<Post> posts = query.list();
+		return checkNullListResult(posts);
 	}
 
 	public Post getPost(int postID) {
@@ -80,7 +87,7 @@ public class PostDAOImpl implements PostDAO {
 		Post post = (Post) session.get(Post.class, postID);
 		if (post.getStatus().equals("Available")) {
 			post.setStatus("Delete");
-		} else {
+		} else if (post.getStatus().equals("Delete")){
 			post.setStatus("Available");
 		}
 		tx.commit();
@@ -95,7 +102,23 @@ public class PostDAOImpl implements PostDAO {
 		}
 		return false;
 	}
-
+	
+	public boolean isExist(int postID) {
+		Session session = sessionFactory.getCurrentSession();
+		Transaction tx = session.beginTransaction();
+		Post post = (Post) session.get(Post.class, postID);
+		if (null != post) {
+			return true;
+		}
+		return false;
+	}
+	
+	private List<Post> checkNullListResult(List<Post> posts){
+		if(posts.size()<1){
+			return null;
+		}
+		return posts;
+	}
 	
 
 }
