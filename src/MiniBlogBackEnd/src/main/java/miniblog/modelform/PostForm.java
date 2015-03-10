@@ -2,16 +2,27 @@ package miniblog.modelform;
 
 import java.util.Date;
 
+import javax.ws.rs.FormParam;
+
 import org.codehaus.jackson.annotate.JsonAutoDetect;
 import org.codehaus.jackson.annotate.JsonAutoDetect.Visibility;
 
 import miniblog.model.UserBlog;
 @JsonAutoDetect(fieldVisibility=Visibility.ANY)
 public class PostForm {
-	
+	@FormParam("PostID")
+	private int PostID;
+	@FormParam("Title")
 	private String Title;
+	@FormParam("Content")
 	private String Content;
 	
+	public int getPostID() {
+		return PostID;
+	}
+	public void setPostID(int postID) {
+		this.PostID = postID;
+	}
 	public String getTitle() {
 		return Title;
 	}

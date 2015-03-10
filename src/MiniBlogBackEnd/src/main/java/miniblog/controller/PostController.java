@@ -18,6 +18,7 @@ import miniblog.model.Post;
 import miniblog.modelform.PostForm;
 import miniblog.service.PostService;
 
+import org.jboss.resteasy.annotations.Form;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
@@ -30,7 +31,7 @@ public class PostController {
 	UserBlogController userController;
 	@Autowired
 	PostService postServiceImpl;
-	int statuscode = 200;
+	int statuscode;
 	Post post;
 
 	@POST
@@ -45,6 +46,7 @@ public class PostController {
 		post.setCreate_date(new Date());
 		post.setModify_date(new Date());
 		post.setStatus("Available");
+		statuscode = 200;
 		if (!postServiceImpl.createNewPost(post)) {
 			statuscode = postServiceImpl.getStatusNumber();
 			return Response.status(statuscode).entity("Validate Error!!!")
@@ -59,6 +61,7 @@ public class PostController {
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
 	public Response changeStatus(@FormParam("PostID")int postID){
+		statuscode = 200;
 		if(!postServiceImpl.changeStatus(postID)){
 			statuscode =postServiceImpl.getStatusNumber();
 			return Response.status(statuscode).entity("This Post is not exist!!!").build();
@@ -70,11 +73,12 @@ public class PostController {
 	@Path("Edit")
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
-	public Response editPost(@FormParam("PostID")int postID, PostForm data){
+	public Response editPost(@Form PostForm data){
 		Post post = new Post();
 		post.setTitle(data.getTitle());
 		post.setContent(data.getContent());
-		if(!postServiceImpl.updatePost(postID, post)){
+		statuscode = 200;
+		if(!postServiceImpl.updatePost(data.getPostID(), post)){
 			statuscode = postServiceImpl.getStatusNumber();
 			return Response.status(statuscode).entity("Validate Error!!!").build();
 		}
@@ -86,13 +90,14 @@ public class PostController {
 	@Produces(MediaType.APPLICATION_JSON)
 	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
 	public Response deletePost(@FormParam("PostID")int postID){
+		statuscode = 200;
 		if(!postServiceImpl.deletePost(postID)){
 			statuscode = postServiceImpl.getStatusNumber();
 			switch (statuscode){
 			case 3001:
-				return Response.status(postID).entity("This Post is not exist!!!").build();
+				return Response.status(statuscode).entity("This Post is not exist!!!").build();
 			case 3002:
-				return Response.status(postID).entity("This Post must be Delete status!!!").build();
+				return Response.status(statuscode).entity("This Post must be Delete status!!!").build();
 			} 
 		}
 		return Response.status(statuscode).entity("Post is delete!!!").build();
@@ -102,6 +107,7 @@ public class PostController {
 	@Path("All")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response getAllPosts(){
+		statuscode = 200;
 		return Response.status(statuscode).entity(postServiceImpl.getAll()).build();
 	}
 	
@@ -109,6 +115,7 @@ public class PostController {
 	@Path("{userID}/Posts")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response getPostsForUser(@PathParam("userID")int userID){
+		statuscode = 200;
 		if(null == postServiceImpl.getPostForUser(userID)){
 			statuscode = postServiceImpl.getStatusNumber();
 			return Response.status(statuscode).entity("No results have found!!!").build();
@@ -119,7 +126,8 @@ public class PostController {
 	@GET
 	@Path("Post/{postid}")
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response getPost(@PathParam("postid")int postID){
+	public Response getPostInfo(@PathParam("postid")int postID){
+		statuscode = 200;
 		if(null == postServiceImpl.getPost(postID)){
 			statuscode = postServiceImpl.getStatusNumber();
 			return Response.status(statuscode).entity("Post is not exist!!!").build();

@@ -1,5 +1,6 @@
 package miniblog.DAO.imp;
 
+import java.util.Date;
 import java.util.List;
 
 import miniblog.DAO.PostDAO;
@@ -37,7 +38,7 @@ public class PostDAOImpl implements PostDAO {
 		Session session = sessionFactory.getCurrentSession();
 		Transaction tx = session.beginTransaction();
 		List<Post> posts = session
-				.createQuery("FROM Posts P WHERE P.Author.id = :authorID ORDER BY P.Modify_date DESC")
+				.createQuery("FROM Post P WHERE P.Author.id = :authorID ORDER BY P.Modify_date DESC")
 				.setParameter("authorID", authorID).list();
 		return checkNullListResult(posts);
 	}
@@ -64,11 +65,10 @@ public class PostDAOImpl implements PostDAO {
 	public void updatePost(int postID, Post newinfo) {
 		Session session = sessionFactory.getCurrentSession();
 		Transaction tx = session.beginTransaction();
-		Post post = (Post) session.get(Post.class, postID);
+		Post post = (Post) session.load(Post.class, postID);
 		post.setContent(newinfo.getContent());
-		post.setStatus(newinfo.getStatus());
 		post.setTitle(newinfo.getTitle());
-		post.setModify_date(newinfo.getModify_date());
+		post.setModify_date(new Date());
 		session.update(post);
 		tx.commit();
 	}
@@ -90,6 +90,7 @@ public class PostDAOImpl implements PostDAO {
 		} else if (post.getStatus().equals("Delete")){
 			post.setStatus("Available");
 		}
+		post.setModify_date(new Date());
 		tx.commit();
 	}
 

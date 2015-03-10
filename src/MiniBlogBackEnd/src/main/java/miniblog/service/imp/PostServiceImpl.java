@@ -44,8 +44,7 @@ public class PostServiceImpl implements PostService {
 	}
 
 	public boolean updatePost(int postID, Post post) {
-		boolean valid = validateInput(post.getAuthor().getId(),
-				post.getTitle(), post.getContent(), post.getStatus());
+		boolean valid = validateInput(post.getTitle(), post.getContent());
 		if (!valid) {
 			this.statusNumber = 1001;
 			return false;
@@ -82,7 +81,7 @@ public class PostServiceImpl implements PostService {
 
 	public Post getPost(int postID) {
 		if(null == postDAOImpl.getPost(postID)){
-			statusNumber = 3003;
+			statusNumber = 3001;
 		}
 		return postDAOImpl.getPost(postID);
 	}
@@ -115,6 +114,19 @@ public class PostServiceImpl implements PostService {
 
 	private boolean validateInput(String status) {
 		if (!status.equalsIgnoreCase("Available") || !status.equalsIgnoreCase("Delete")) {
+			return false;
+		}
+		return true;
+	}
+	
+	private boolean validateInput(String title ,String content) {
+		if (null == title || null == content) {
+			return false;
+		}
+		if (title.length() > 100) {
+			return false;
+		}
+		if (content.length() > 2000) {
 			return false;
 		}
 		return true;

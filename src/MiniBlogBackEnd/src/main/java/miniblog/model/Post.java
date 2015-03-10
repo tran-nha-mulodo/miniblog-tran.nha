@@ -17,6 +17,7 @@ import javax.persistence.Table;
 
 import org.codehaus.jackson.annotate.JsonAutoDetect;
 import org.codehaus.jackson.annotate.JsonAutoDetect.Visibility;
+import org.codehaus.jackson.annotate.JsonIgnore;
 import org.codehaus.jackson.annotate.JsonProperty;
 
 @Entity
@@ -31,18 +32,22 @@ public class Post{
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	private int id;
 	
+
 	@ManyToOne
 	@JoinColumn(name="Author")
 	private UserBlog Author;
+	
+
 	private String Title;
 	private String Content;
 	private Date Create_date;
 	private Date Modify_date;
 	private String Status;
 	
+	@JsonIgnore
 	@OneToMany(mappedBy="Post_id",cascade=CascadeType.ALL)
 	private List<Comment> comments;
-
+	@JsonIgnore
 	public UserBlog getAuthor() {
 		return Author;
 	}
