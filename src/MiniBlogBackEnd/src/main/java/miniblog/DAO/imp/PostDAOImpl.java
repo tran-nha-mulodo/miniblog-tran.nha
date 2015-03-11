@@ -76,7 +76,7 @@ public class PostDAOImpl implements PostDAO {
 	public void deletePost(int postID) {
 		Session session = sessionFactory.getCurrentSession();
 		Transaction tx = session.beginTransaction();
-		Post post = (Post) session.get(Post.class, postID);
+		Post post = (Post) session.load(Post.class, postID);
 		session.delete(post);
 		tx.commit();
 	}

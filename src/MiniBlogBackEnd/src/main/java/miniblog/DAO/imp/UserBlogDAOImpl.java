@@ -62,7 +62,7 @@ public class UserBlogDAOImpl implements UserBlogDAO {
 	public UserBlog getInfo(int id) {
 		Session session = sessionFactory.getCurrentSession();
 		Transaction tx = session.beginTransaction();
-		UserBlog user = (UserBlog) session.get(UserBlog.class, id);
+		UserBlog user = (UserBlog) session.load(UserBlog.class, id);
 		// tx.commit();
 		return user;
 	}
@@ -70,7 +70,7 @@ public class UserBlogDAOImpl implements UserBlogDAO {
 	public void deleteUser(int userID) {
 		Session session = sessionFactory.getCurrentSession();
 		Transaction tx = session.beginTransaction();
-		UserBlog user = (UserBlog) session.get(UserBlog.class, userID);
+		UserBlog user = (UserBlog) session.load(UserBlog.class, userID);
 		session.delete(user);
 		tx.commit();
 	}

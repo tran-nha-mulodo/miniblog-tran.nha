@@ -13,7 +13,7 @@ public class PostServiceImpl implements PostService {
 
 	@Autowired
 	PostDAO postDAOImpl;
-	int statusNumber = 200;
+	int statusNumber;
 
 	public List<Post> getAll() {
 		return postDAOImpl.getAll();
@@ -81,7 +81,7 @@ public class PostServiceImpl implements PostService {
 
 	public Post getPost(int postID) {
 		if(null == postDAOImpl.getPost(postID)){
-			statusNumber = 3001;
+			this.statusNumber = 3001;
 		}
 		return postDAOImpl.getPost(postID);
 	}
@@ -107,13 +107,6 @@ public class PostServiceImpl implements PostService {
 			return false;
 		}
 		if (!(!status.equalsIgnoreCase("Available") || !status.equalsIgnoreCase("Delete"))) {
-			return false;
-		}
-		return true;
-	}
-
-	private boolean validateInput(String status) {
-		if (!status.equalsIgnoreCase("Available") || !status.equalsIgnoreCase("Delete")) {
 			return false;
 		}
 		return true;

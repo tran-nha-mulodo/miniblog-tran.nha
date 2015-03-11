@@ -132,6 +132,11 @@ public class PostController {
 			statuscode = postServiceImpl.getStatusNumber();
 			return Response.status(statuscode).entity("Post is not exist!!!").build();
 		}
+		this.post = postServiceImpl.getPost(postID);
 		return Response.status(statuscode).entity(postServiceImpl.getPost(postID)).build();
+	}
+	
+	public Post getPost(){
+		return this.post;
 	}
 }
