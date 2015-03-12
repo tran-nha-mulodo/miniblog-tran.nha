@@ -61,8 +61,8 @@ public class CommentDAOImpl implements CommentDAO{
 		Session session = sessionFactory.getCurrentSession();
 		Transaction tx = session.beginTransaction();
 		List<Comment> comments = session.createQuery("FROM Comment C WHERE C.Post_id.id = :postID")
-				.setParameter(":postID", postID).list();
-		return comments;
+				.setParameter("postID", postID).list();
+		return checkNullListResult(comments);
 	}
 
 	public List<Comment> getCommentsForUser(int userID) {
@@ -70,7 +70,7 @@ public class CommentDAOImpl implements CommentDAO{
 		Transaction tx = session.beginTransaction();
 		List<Comment> comments = session.createQuery("FROM Comment C WHERE C.Author_id.id = :userID")
 				.setParameter("userID",userID).list();
-		return comments;
+		return checkNullListResult(comments);
 	}
 
 	public boolean isExist(int commentID) {
@@ -91,6 +91,13 @@ public class CommentDAOImpl implements CommentDAO{
 			return true;
 		}
 		return false;
+	}
+	
+	private List<Comment> checkNullListResult(List<Comment> comments){
+		if(comments.size()<1){
+			return null;
+		}
+		return comments;
 	}
 
 }

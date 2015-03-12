@@ -10,6 +10,17 @@ import miniblog.model.UserBlog;
 @JsonAutoDetect(fieldVisibility=Visibility.ANY)
 public class CommentForm {
 	
+	private int id;
+	private int Post_id;
+	private int Author_id;
+	private String Content;
+	
+	public int getId() {
+		return id;
+	}
+	public void setId(int id) {
+		this.id = id;
+	}
 	public int getPost_id() {
 		return Post_id;
 	}
@@ -28,8 +39,5 @@ public class CommentForm {
 	public void setContent(String content) {
 		Content = content;
 	}
-	private int Post_id;
-	private int Author_id;
-	private String Content;
 	
 }

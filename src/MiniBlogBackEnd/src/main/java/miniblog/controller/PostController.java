@@ -124,7 +124,7 @@ public class PostController {
 	}
 	
 	@GET
-	@Path("Post/{postid}")
+	@Path("GetPost/{postid}")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response getPostInfo(@PathParam("postid")int postID){
 		statuscode = 200;
