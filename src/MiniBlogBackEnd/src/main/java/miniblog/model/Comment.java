@@ -13,6 +13,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import org.codehaus.jackson.annotate.JsonAutoDetect;
+import org.codehaus.jackson.annotate.JsonIgnore;
 import org.codehaus.jackson.annotate.JsonProperty;
 
 @Entity
@@ -30,7 +31,6 @@ public class Comment{
 	
 	@ManyToOne
 	@JoinColumn(name="Post_id")
-	@JsonProperty
 	private Post Post_id;
 	
 	@ManyToOne
@@ -41,7 +41,8 @@ public class Comment{
 	private Date Create_date;
 	private Date Modify_date;
 	private String Status;
-
+	
+	@JsonIgnore
 	public Post getPost_id() {
 		return Post_id;
 	}
@@ -49,7 +50,7 @@ public class Comment{
 	public void setPost_id(Post post_id) {
 		Post_id = post_id;
 	}
-
+	@JsonIgnore
 	public UserBlog getAuthor_id() {
 		return Author_id;
 	}
