@@ -1,6 +1,6 @@
 package miniblog.service.imp;
 
-import java.text.DateFormat;
+
 import java.util.Date;
 import java.util.List;
 
@@ -8,7 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import miniblog.DAO.UserBlogDAO;
-import miniblog.DAO.imp.UserBlogDAOImpl;
 import miniblog.model.UserBlog;
 import miniblog.service.UserBlogService;
 
@@ -44,7 +43,7 @@ public class UserBlogServiceImpl implements UserBlogService {
 		if (!valid) {
 			this.statusNumber = 1001;
 			return false;
-		} else if (checkUserExist(user.getUsername())) {
+		} else if (!checkUserExist(user.getUsername())) {
 
 			this.statusNumber = 2001;
 			return false;

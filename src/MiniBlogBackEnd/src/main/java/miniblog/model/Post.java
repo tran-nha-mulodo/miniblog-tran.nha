@@ -14,6 +14,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 import org.codehaus.jackson.annotate.JsonAutoDetect;
 import org.codehaus.jackson.annotate.JsonAutoDetect.Visibility;
@@ -37,7 +38,8 @@ public class Post{
 	@JoinColumn(name="Author")
 	private UserBlog Author;
 	
-
+	@Transient
+	private int AuthorID;
 	private String Title;
 	private String Content;
 	private Date Create_date;
@@ -56,6 +58,10 @@ public class Post{
 		Author = author;
 	}
 
+	public int getAuthorID(){
+		return Author.getId();
+	}
+	
 	public String getTitle() {
 		return Title;
 	}

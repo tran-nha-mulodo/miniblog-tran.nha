@@ -15,13 +15,14 @@ import javax.persistence.Table;
 
 import org.codehaus.jackson.annotate.JsonAutoDetect;
 import org.codehaus.jackson.annotate.JsonIgnore;
+import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 import org.codehaus.jackson.annotate.JsonProperty;
 import org.codehaus.jackson.annotate.JsonAutoDetect.Visibility;
 import org.hibernate.annotations.Cascade;
 
 @Entity
 @Table(name = "userblog")
-//@JsonAutoDetect(fieldVisibility=Visibility.ANY)
+@JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
 public class UserBlog {
 	
 	public UserBlog() {

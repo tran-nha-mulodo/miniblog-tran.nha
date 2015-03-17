@@ -1,5 +1,6 @@
 package miniblog.DAO.imp;
 
+import java.util.Date;
 import java.util.List;
 
 import org.apache.log4j.pattern.FullLocationPatternConverter;
@@ -142,6 +143,7 @@ public class UserBlogDAOImpl implements UserBlogDAO {
 		Transaction tx = session.beginTransaction();
 		UserBlog user = (UserBlog) session.load(UserBlog.class, userID);
 		user.setPassword(newpass);
+		user.setModify_date(new Date());
 		session.update(user);
 		tx.commit();
 	}

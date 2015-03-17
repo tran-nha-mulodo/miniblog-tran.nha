@@ -16,6 +16,7 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import miniblog.model.UserBlog;
+import miniblog.modelform.ReturnObject;
 import miniblog.modelform.UserForm;
 import miniblog.service.UserBlogService;
 import miniblog.service.imp.UserBlogServiceImpl;
@@ -141,7 +142,7 @@ public class UserBlogController {
 	@Consumes(MediaType.APPLICATION_FORM_URLENCODED)
 	public Response loginUser(@FormParam("Username") String username,
 			@FormParam("Password") String password) {
-		statuscode = 200;
+				statuscode = 200;
 		if (!userBlogServiceImpl.loginUser(username, password)) {
 			statuscode = userBlogServiceImpl.getStatusNumber();
 			switch (statuscode) {
@@ -154,8 +155,11 @@ public class UserBlogController {
 			}
 		}
 		this.user = userBlogServiceImpl.getUserBlog();
+		ReturnObject ro = new ReturnObject();
+		ro.message = "Login Successful!!!";
+		ro.data = this.user;
 		return Response.status(statuscode)
-				.entity("Login Successful!!!").build();
+				.entity(ro).build();
 	}
 
 	//Search Users by name(username, lastname and firstname)
