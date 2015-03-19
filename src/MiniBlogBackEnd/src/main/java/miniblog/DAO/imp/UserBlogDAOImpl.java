@@ -95,7 +95,7 @@ public class UserBlogDAOImpl implements UserBlogDAO {
 		user.setEmail(newInfo.getEmail());
 		user.setGender(newInfo.getGender());
 		user.setBirthday(newInfo.getBirthday());
-		user.setModify_date(newInfo.getModify_date());
+		user.setModify_date(new Date());
 		session.update(user);
 		tx.commit();
 	}
@@ -107,7 +107,7 @@ public class UserBlogDAOImpl implements UserBlogDAO {
 				.createQuery("FROM UserBlog U WHERE U.Username = :username");
 		query.setParameter("username", username);
 		List<UserBlog> users = query.list();
-		if (null == users) {
+		if (users.size()>0) {
 			return false;
 		}
 		return true;

@@ -109,7 +109,7 @@ public class CommentServiceImpl implements CommentService {
 		if (null == content) {
 			return false;
 		}
-		if (content.length() > 2000) {
+		if (content.length() > 500) {
 			return false;
 		}
 		return true;
