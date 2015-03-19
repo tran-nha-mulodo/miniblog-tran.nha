@@ -16,6 +16,7 @@ public class UserService {
 	@Autowired
 	UserDAO userDAO;
 	String messageError;
+	User user;
 	
 	public boolean registerUser(User user){
 		boolean valid = validateInput(user.getUsername(), user.getPassword(), user.getEmail(), 
@@ -71,6 +72,7 @@ public class UserService {
 			return false;
 		}
 		if(userDAO.loginUser(username, password)== 200){
+			this.user = userDAO.getUser();
 			return true;
 		}else if(userDAO.loginUser(username, password) == 2003){
 			this.messageError = "Wrong Password!!!";
@@ -90,6 +92,10 @@ public class UserService {
 	public List<User> searchUser(String searchName) throws JsonParseException, JsonMappingException, IOException{
 		return userDAO.searchUserByName(searchName);
 	}	
+	
+	public User getInfo(){
+		return this.user;
+	}
 	
 	public String getMessageError(){
 		return this.messageError;

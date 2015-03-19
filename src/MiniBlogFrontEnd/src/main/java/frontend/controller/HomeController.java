@@ -1,7 +1,12 @@
 package frontend.controller;
 
+import javax.servlet.ServletRequest;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -19,13 +24,16 @@ public class HomeController {
 
 	@RequestMapping(value = "Login", method = RequestMethod.POST)
 	public String loginUser(@RequestParam("username") String username,
-			@RequestParam("password") String password, ModelMap mm)
+			@RequestParam("password") String password, Model model,
+			HttpServletRequest request)
 			throws Exception {
+		HttpSession session = request.getSession();
 		if (userService.loginUser(username, password)) {
-			return "index";
+			session.setAttribute("SessionUser", userService.getInfo());
+			return "redirect:Welcome";
 		} else {
-			mm.put("errorMessage", userService.getMessageError());
-			return "ErrorPage";
+			model.addAttribute("ErrorMessage", userService.getMessageError());
+			return "index";
 		}
 	}
 
@@ -47,7 +55,7 @@ public class HomeController {
 		user.setGender(gender);
 		user.setBirthday(birthday);
 		if (userService.registerUser(user)) {
-			return "welcome";
+			return "redirect:Login";
 		}else{
 		mm.put("ErrorMessage", userService.getMessageError());
 		return "register";
@@ -59,11 +67,15 @@ public class HomeController {
 	 ---------------------------*/
 	@RequestMapping(value = "Login", method = RequestMethod.GET)
 	public String loginPage() {
-		return "welcome";
+		return "index";
 	}
 
 	@RequestMapping(value = "Register", method = RequestMethod.GET)
 	public String registerPage() {
 		return "register";
+	}
+	@RequestMapping(value = "Welcome", method = RequestMethod.GET)
+	public String welcomePage(){
+		return "welcome";
 	}
 }

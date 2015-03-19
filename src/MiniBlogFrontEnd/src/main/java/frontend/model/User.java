@@ -8,16 +8,16 @@ import org.codehaus.jackson.annotate.JsonAutoDetect.Visibility;
 @JsonAutoDetect(fieldVisibility = Visibility.ANY)
 public class User {
 	
-	int id;
-	String Lastname;
-	String Username;
-	String Password;
-	String Email;
-	String Firstname;
-	String Gender;
-	String Birthday;
-	Date Create_date;
-	Date Modify_date;
+	private int id;
+	private String Lastname;
+	private String Username;
+	private String Password;
+	private String Email;
+	private String Firstname;
+	private String Gender;
+	private String Birthday;
+	private Date Create_date;
+	private Date Modify_date;
 	
 	public int getId() {
 		return id;

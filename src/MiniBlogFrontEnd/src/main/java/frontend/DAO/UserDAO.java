@@ -45,7 +45,7 @@ public class UserDAO {
 			String jsoncontent = response.readEntity(String.class);
 			ObjectMapper mapper = new ObjectMapper();
 			ObjectReturn objectjson = mapper.readValue(jsoncontent, ObjectReturn.class);
-			user = (User) objectjson.getData();
+			this.user = (User) objectjson.getData();
 		}
 			return response.getStatus();
 	}
