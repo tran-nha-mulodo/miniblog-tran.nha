@@ -40,6 +40,8 @@ public class Post{
 	
 	@Transient
 	private int AuthorID;
+	@Transient
+	private String Username;
 	private String Title;
 	private String Content;
 	private Date Create_date;
@@ -62,6 +64,10 @@ public class Post{
 		return Author.getId();
 	}
 	
+	public String getUsername() {
+		return Author.getUsername();
+	}
+
 	public String getTitle() {
 		return Title;
 	}

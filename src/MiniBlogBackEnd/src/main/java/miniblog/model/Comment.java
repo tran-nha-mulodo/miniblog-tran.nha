@@ -42,6 +42,8 @@ public class Comment{
 	private int PostID;
 	@Transient
 	private int AuthorID;
+	@Transient
+	private String Username;
 	private String Content;
 	private Date Create_date;
 	private Date Modify_date;
@@ -72,6 +74,10 @@ public class Comment{
 
 	public int getAuthorID() {
 		return Author_id.getId();
+	}
+	
+	public String getUsername() {
+		return Author_id.getUsername();
 	}
 
 	public String getContent() {
