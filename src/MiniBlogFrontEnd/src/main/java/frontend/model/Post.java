@@ -7,6 +7,8 @@ import org.codehaus.jackson.annotate.JsonAutoDetect.Visibility;
 @JsonAutoDetect(fieldVisibility = Visibility.ANY)
 public class Post {
 	private int id;
+	private int AuthorID;
+	private String Username;
 	private String Title;
 	private String Content;
 	private Date Create_date;
@@ -47,6 +49,18 @@ public class Post {
 	}
 	public void setStatus(String status) {
 		Status = status;
+	}
+	public int getAuthorID() {
+		return AuthorID;
+	}
+	public void setAuthorID(int AuthorID) {
+		this.AuthorID = AuthorID;
+	}
+	public String getUsername() {
+		return Username;
+	}
+	public void setUsername(String username) {
+		Username = username;
 	}
 	
 }

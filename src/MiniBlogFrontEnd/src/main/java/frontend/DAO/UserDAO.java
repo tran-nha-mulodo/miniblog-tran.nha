@@ -84,8 +84,9 @@ public class UserDAO {
 		ResteasyWebTarget target = client.target(link.URL_SEARCH_USER+name);
 		Response response = target.request().get();
 		if(response.getStatus()==200){
+			String jsoncontent = response.readEntity(String.class);
 			ObjectMapper mapper = new ObjectMapper();
-			List<User> users = mapper.readValue(response.getEntity().toString(), TypeFactory.defaultInstance().constructCollectionType(List.class,User.class));
+			List<User> users = mapper.readValue(jsoncontent, TypeFactory.defaultInstance().constructCollectionType(List.class,User.class));
 			return users;
 		}
 		return null;

@@ -1,8 +1,12 @@
 package frontend.controller;
 
+import java.io.IOException;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import org.codehaus.jackson.JsonParseException;
+import org.codehaus.jackson.map.JsonMappingException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -56,6 +60,18 @@ public class UserController {
 		return "changepassword";
 	}
 	
+	@RequestMapping(value = "SearchName", method = RequestMethod.POST)
+	public String searchName(@RequestParam("namesearch")String namesearch, Model model) throws JsonParseException, JsonMappingException, IOException{
+		if(userService.searchUser(namesearch).size()>0){
+			model.addAttribute("Users", userService.searchUser(namesearch));
+			return "searchuser";
+		}
+		else{
+			model.addAttribute("ErrorMessage", "No result!!!");
+			return "redirect:Welcome";
+		}
+	}
+	
 	/*---------------------------
 	 --------Return page---------
 	 ---------------------------*/
@@ -74,5 +90,10 @@ public class UserController {
 		HttpSession session = request.getSession();
 		session.removeAttribute("SessionUser");
 		return "redirect:/home/Login";
+	}
+	
+	@RequestMapping(value = "Welcome", method = RequestMethod.GET)
+	public String welcomePage(){
+		return "welcome";
 	}
 }

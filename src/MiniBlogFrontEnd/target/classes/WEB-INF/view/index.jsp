@@ -6,8 +6,14 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <title>Index Page</title>
+<script type = "text/javascript" >
+    history.pushState(null, null, 'login');
+    window.addEventListener('popstate', function(event) {
+    history.pushState(null, null, 'login');
+    });
+</script>
 </head>
-<body>
+<body onload="javascript:window.history.forward(1);">
 	<h1>MiniBlog</h1>
 	<h3>Login</h3>
 	<table>

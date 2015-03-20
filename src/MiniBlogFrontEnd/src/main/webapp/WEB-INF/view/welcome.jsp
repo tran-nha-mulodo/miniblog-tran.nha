@@ -16,5 +16,14 @@
 		</tr>
 	</table>
 	<h1>Welcome to miniblog !!!</h1>
+	<table>
+		<form action="SearchName" method="post">
+		<tr>
+			<td><input type="text" maxlength="40" name="namesearch" value="Input username, lastname or firstname"/></td>
+			<td><input type="submit" value="Search"/></td>
+		</tr>
+		</form>
+		${ErrorMessage}
+	</table>
 </body>
 </html>

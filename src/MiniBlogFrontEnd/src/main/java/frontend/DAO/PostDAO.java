@@ -68,8 +68,9 @@ public class PostDAO {
 		ResteasyWebTarget target = client.target(link.URL_GETALL_POST);
 		Response response = target.request().get();
 		if(response.getStatus() == 200){
+			String jsoncontent = response.readEntity(String.class);
 			ObjectMapper mapper = new ObjectMapper();
-			List<Post> posts = mapper.readValue(response.getEntity().toString(), TypeFactory.defaultInstance().constructCollectionType(List.class, Post.class));
+			List<Post> posts = mapper.readValue(jsoncontent, TypeFactory.defaultInstance().constructCollectionType(List.class, Post.class));
 			return posts;
 		}
 		return null;
@@ -79,8 +80,9 @@ public class PostDAO {
 		ResteasyWebTarget target = client.target(link.URL_GETFORUSER_POST(userID));
 		Response response = target.request().get();
 		if(response.getStatus() == 200){
+			String jsoncontent = response.readEntity(String.class);
 			ObjectMapper mapper = new ObjectMapper();
-			List<Post> posts = mapper.readValue(response.getEntity().toString(), TypeFactory.defaultInstance().constructCollectionType(List.class, Post.class));
+			List<Post> posts = mapper.readValue(jsoncontent, TypeFactory.defaultInstance().constructCollectionType(List.class, Post.class));
 			return posts;
 		}
 		return null;

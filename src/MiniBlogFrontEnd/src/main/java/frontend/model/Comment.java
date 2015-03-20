@@ -2,11 +2,15 @@ package frontend.model;
 
 import java.util.Date;
 
+
 import org.codehaus.jackson.annotate.JsonAutoDetect;
 import org.codehaus.jackson.annotate.JsonAutoDetect.Visibility;
 @JsonAutoDetect(fieldVisibility = Visibility.ANY)
 public class Comment {
 	private int id;
+	private int PostID;
+	private String Username;
+	private int AuthorID;
 	private String Content;
 	private Date Create_date;
 	private Date Modify_date;
@@ -40,6 +44,24 @@ public class Comment {
 	}
 	public void setStatus(String status) {
 		Status = status;
+	}
+	public int getPostID() {
+		return PostID;
+	}
+	public void setPostID(int postID) {
+		PostID = postID;
+	}
+	public int getAuthorID() {
+		return AuthorID;
+	}
+	public void setAuthorID(int authorID) {
+		AuthorID = authorID;
+	}
+	public String getUsername() {
+		return Username;
+	}
+	public void setUsername(String username) {
+		Username = username;
 	}
 	
 }

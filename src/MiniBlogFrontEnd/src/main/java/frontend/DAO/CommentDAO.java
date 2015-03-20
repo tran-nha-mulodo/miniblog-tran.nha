@@ -61,8 +61,9 @@ public class CommentDAO {
 		ResteasyWebTarget target = client.target(link.URL_GETFORPOST_COMMENT+postID);
 		Response response = target.request().get();
 		if(response.getStatus()==200){
+			String jsoncontent = response.readEntity(String.class);
 			ObjectMapper mapper = new ObjectMapper();
-			List<Comment> commments = mapper.readValue(response.getEntity().toString(), TypeFactory.defaultInstance().constructCollectionType(List.class, Comment.class));
+			List<Comment> commments = mapper.readValue(jsoncontent, TypeFactory.defaultInstance().constructCollectionType(List.class, Comment.class));
 			return commments;
 		}
 		return null;
@@ -72,8 +73,9 @@ public class CommentDAO {
 		ResteasyWebTarget target = client.target(link.URL_GETFORUSER_COMMENT(userID));
 		Response response = target.request().get();
 		if(response.getStatus()==200){
+			String jsoncontent = response.readEntity(String.class);
 			ObjectMapper mapper = new ObjectMapper();
-			List<Comment> commments = mapper.readValue(response.getEntity().toString(), TypeFactory.defaultInstance().constructCollectionType(List.class, Comment.class));
+			List<Comment> commments = mapper.readValue(jsoncontent, TypeFactory.defaultInstance().constructCollectionType(List.class, Comment.class));
 			return commments;
 		}
 		return null;

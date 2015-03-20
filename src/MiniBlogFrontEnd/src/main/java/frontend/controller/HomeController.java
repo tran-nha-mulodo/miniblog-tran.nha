@@ -30,7 +30,7 @@ public class HomeController {
 		HttpSession session = request.getSession();
 		if (userService.loginUser(username, password)) {
 			session.setAttribute("SessionUser", userService.getInfo());
-			return "redirect:Welcome";
+			return "redirect:/User/Welcome";
 		} else {
 			model.addAttribute("ErrorMessage", userService.getMessageError());
 			return "index";
@@ -73,9 +73,5 @@ public class HomeController {
 	@RequestMapping(value = "Register", method = RequestMethod.GET)
 	public String registerPage() {
 		return "register";
-	}
-	@RequestMapping(value = "Welcome", method = RequestMethod.GET)
-	public String welcomePage(){
-		return "welcome";
 	}
 }
