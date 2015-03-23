@@ -3,8 +3,10 @@ package frontend.model;
 import java.util.Date;
 
 
+
 import org.codehaus.jackson.annotate.JsonAutoDetect;
 import org.codehaus.jackson.annotate.JsonAutoDetect.Visibility;
+import org.codehaus.jackson.annotate.JsonIgnore;
 @JsonAutoDetect(fieldVisibility = Visibility.ANY)
 public class Comment {
 	private int id;

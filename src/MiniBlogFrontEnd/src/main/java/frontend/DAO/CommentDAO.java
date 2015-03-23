@@ -18,6 +18,7 @@ import org.jboss.resteasy.client.jaxrs.ResteasyWebTarget;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import frontend.DAOForm.CommentForm;
 import frontend.model.Comment;
 import frontend.model.Post;
 
@@ -26,7 +27,7 @@ public class CommentDAO {
 	@Autowired
 	CommonLink link;
 	
-	public int createNewComment(Comment commentdata){
+	public int createNewComment(CommentForm commentdata){
 		ResteasyClient client = new ResteasyClientBuilder().build();
 		ResteasyWebTarget target = client.target(link.URL_CREATENEW_COMMENT);
 		Response response = target.request().post(Entity.entity(commentdata, MediaType.APPLICATION_JSON));

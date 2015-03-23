@@ -20,7 +20,7 @@ public class CommonLink {
 	public final String URL_CHANGESTATUS_POST = URL_API + "/Post/ChangeStatus";
 	public final String URL_EDIT_POST = URL_API + "/Post/Edit";
 	public final String URL_DELETE_POST = URL_API + "/Post/Delete";
-	public final String URL_GETALL_POST = URL_API + "Post/All";							// Get Method
+	public final String URL_GETALL_POST = URL_API + "/Post/All";							// Get Method
 	public final String URL_GETINFO_POST = URL_API + "/Post/GetPost/";					// Get Method
 	public final String URL_GETFORUSER_POST (int userID){								// Get Method
 		return URL_API + "/Post/"+userID+"/Posts";

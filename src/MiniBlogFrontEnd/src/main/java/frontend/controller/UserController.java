@@ -1,6 +1,8 @@
 package frontend.controller;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -14,7 +16,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import frontend.model.Post;
 import frontend.model.User;
+import frontend.service.PostService;
 import frontend.service.UserService;
 
 @Controller
@@ -22,6 +26,8 @@ import frontend.service.UserService;
 public class UserController {
 	@Autowired
 	UserService userService;
+	@Autowired
+	PostService postService;
 	
 	@RequestMapping(value= "UpdateInfo", method = RequestMethod.POST)
 	public String updateinfo(@RequestParam("lastname")String lastname,@RequestParam("firstname")String firstname,
@@ -45,9 +51,7 @@ public class UserController {
 			model.addAttribute("ErrorMessage", userService.getMessageError());
 			return "updateinfo";
 		}
-		
 	}
-	
 	@RequestMapping(value = "ChangePassword",method = RequestMethod.POST)
 	public String changepassword(@RequestParam("password")String password,
 			@RequestParam("newpassword")String newpassword, Model model, HttpServletRequest request){
@@ -59,7 +63,6 @@ public class UserController {
 		model.addAttribute("ErrorMessage", userService.getMessageError());
 		return "changepassword";
 	}
-	
 	@RequestMapping(value = "SearchName", method = RequestMethod.POST)
 	public String searchName(@RequestParam("namesearch")String namesearch, Model model) throws JsonParseException, JsonMappingException, IOException{
 		if(userService.searchUser(namesearch).size()>0){
@@ -93,7 +96,10 @@ public class UserController {
 	}
 	
 	@RequestMapping(value = "Welcome", method = RequestMethod.GET)
-	public String welcomePage(){
+	public String welcomePage(Model model){
+		List<Post> posts = new ArrayList<Post>();
+		posts =	postService.getAllPost();
+		model.addAttribute("Posts", posts);
 		return "welcome";
 	}
 }

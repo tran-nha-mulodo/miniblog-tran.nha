@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import frontend.DAO.PostDAO;
+import frontend.DAOForm.PostForm;
 import frontend.model.Post;
 
 @Service
@@ -17,7 +18,7 @@ public class PostService {
 	PostDAO postDAO;
 	String messageError;
 
-	public boolean createNewPost(Post post) {
+	public boolean createNewPost(PostForm post) {
 		boolean valid = validateInput(post.getTitle(), post.getContent());
 		if (!valid) {
 			this.messageError = "Validation Error!!!";
@@ -39,12 +40,12 @@ public class PostService {
 		}
 	}
 	
-	public boolean editPost(Post post){
-		if(!validateInput(post.getTitle(), post.getContent())){
+	public boolean editPost(int postid, String title, String content){
+		if(!validateInput(title, content)){
 			this.messageError = "Validation Error!!!";
 			return false;
 		}
-		if(postDAO.editPost(post) == 200){
+		if(postDAO.editPost(postid,title,content) == 200){
 			return true;
 		}
 		return false;

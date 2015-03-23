@@ -18,7 +18,7 @@
 			</tr>
 			<tr>
 				<td>Title</td>
-				<td>${post.title}</td>
+				<td><a href='<c:url value="PostDisplay?id=${post.id}"/>'>${post.title}</a></td>
 			</tr>
 			<tr>
 				<td>Content</td>

@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import frontend.DAO.CommentDAO;
+import frontend.DAOForm.CommentForm;
 import frontend.model.Comment;
 
 @Service
@@ -14,22 +15,22 @@ public class CommentService {
 	CommentDAO commentDAO;
 	String messageError;
 	
-	public boolean createNewComment(Comment comment){
-		if(!validateInput(comment.getContent())){
+	public boolean createNewComment(CommentForm commentdata){
+		if(!validateInput(commentdata.getContent())){
 			this.messageError = "Validation Error!!!";
 			return false;
 		}
-		if(commentDAO.createNewComment(comment)==200){
+		if(commentDAO.createNewComment(commentdata)==200){
 			return true;
 		}
 		return false;
 	}
-	public boolean editComment(Comment comment){
-		if(!validateInput(comment.getContent())){
+	public boolean editComment(int commentid, String content){
+		if(!validateInput(content)){
 			this.messageError = "Validation Error!!!";
 			return false;
 		}
-		if(commentDAO.createNewComment(comment)==200){
+		if(commentDAO.editComment(commentid, content)==200){
 			return true;
 		}
 		return false;

@@ -18,6 +18,7 @@ import org.jboss.resteasy.client.jaxrs.ResteasyWebTarget;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import frontend.DAOForm.PostForm;
 import frontend.model.Post;
 import frontend.model.User;
 
@@ -27,7 +28,7 @@ public class PostDAO {
 	@Autowired
 	CommonLink link;
 
-	public int createNewPost(Post postdata) {
+	public int createNewPost(PostForm postdata) {
 		ResteasyClient client = new ResteasyClientBuilder().build();
 		ResteasyWebTarget target = client.target(link.URL_CREATENEW_POST);
 		Response response = target.request().post(
@@ -44,11 +45,11 @@ public class PostDAO {
 		return response.getStatus();
 	}
 
-	public int editPost(Post postdata) {
+	public int editPost(int postid, String title, String content) {
 		Form form = new Form();
-		form.param("PostID", Integer.toString(postdata.getId()))
-				.param("Title", postdata.getTitle())
-				.param("Content", postdata.getContent());
+		form.param("PostID", Integer.toString(postid))
+				.param("Title", title)
+				.param("Content", content);
 		ResteasyClient client = new ResteasyClientBuilder().build();
 		ResteasyWebTarget target = client.target(link.URL_EDIT_POST);
 		Response response = target.request().put(Entity.entity(form, MediaType.APPLICATION_FORM_URLENCODED));
