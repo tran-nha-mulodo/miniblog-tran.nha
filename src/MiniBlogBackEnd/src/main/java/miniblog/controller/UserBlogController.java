@@ -187,7 +187,7 @@ public class UserBlogController {
 		return userBlogServiceImpl.deleteUser(username);
 	}
 	
-	public UserBlog getUser(){
-		return user;
+	public UserBlog getUser(int userid){
+		return userBlogServiceImpl.findBy(userid);
 	}
 }

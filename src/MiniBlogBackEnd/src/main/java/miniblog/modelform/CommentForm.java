@@ -11,8 +11,8 @@ import miniblog.model.UserBlog;
 public class CommentForm {
 	
 	private int id;
-	private int Post_id;
-	private int Author_id;
+	private int PostID;
+	private int AuthorID;
 	private String Content;
 	
 	public int getId() {
@@ -21,17 +21,17 @@ public class CommentForm {
 	public void setId(int id) {
 		this.id = id;
 	}
-	public int getPost_id() {
-		return Post_id;
+	public int getPostID() {
+		return PostID;
 	}
-	public void setPost_id(int post_id) {
-		Post_id = post_id;
+	public void setPostID(int post_id) {
+		PostID = post_id;
 	}
-	public int getAuthor_id() {
-		return Author_id;
+	public int getAuthorID() {
+		return AuthorID;
 	}
-	public void setAuthor_id(int author_id) {
-		Author_id = author_id;
+	public void setAuthorID(int author_id) {
+		AuthorID = author_id;
 	}
 	public String getContent() {
 		return Content;

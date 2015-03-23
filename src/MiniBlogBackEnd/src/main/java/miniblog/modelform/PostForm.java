@@ -16,7 +16,16 @@ public class PostForm {
 	private String Title;
 	@FormParam("Content")
 	private String Content;
+	@FormParam("AuthorID")
+	private int AuthorID;
 	
+	
+	public int getAuthorID() {
+		return AuthorID;
+	}
+	public void setAuthorID(int authorID) {
+		AuthorID = authorID;
+	}
 	public int getPostID() {
 		return PostID;
 	}

@@ -40,8 +40,8 @@ public class CommentController {
 	@Consumes(MediaType.APPLICATION_JSON)
 	public Response createNewComment(CommentForm data){
 		Comment comment = new Comment();
-		comment.setAuthor_id(userController.user);
-		comment.setPost_id(postController.getPost());
+		comment.setAuthor_id(userController.getUser(data.getAuthorID()));
+		comment.setPost_id(postController.getPost(data.getPostID()));
 		comment.setContent(data.getContent());
 		comment.setCreate_date(new Date());
 		comment.setModify_date(new Date());

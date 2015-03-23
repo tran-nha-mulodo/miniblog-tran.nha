@@ -40,7 +40,7 @@ public class PostController {
 	@Consumes(MediaType.APPLICATION_JSON)
 	public Response createNewPost(PostForm data) {
 		Post post = new Post();
-		post.setAuthor(userController.getUser());
+		post.setAuthor(userController.getUser(data.getAuthorID()));
 		post.setTitle(data.getTitle());
 		post.setContent(data.getContent());
 		post.setCreate_date(new Date());
@@ -136,7 +136,7 @@ public class PostController {
 		return Response.status(statuscode).entity(postServiceImpl.getPost(postID)).build();
 	}
 	
-	public Post getPost(){
-		return this.post;
+	public Post getPost(int postid){
+		return postServiceImpl.getPost(postid);
 	}
 }
