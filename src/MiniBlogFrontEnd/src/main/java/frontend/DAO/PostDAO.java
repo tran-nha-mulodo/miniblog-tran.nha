@@ -40,7 +40,7 @@ public class PostDAO {
 		Form form = new Form();
 		form.param("PostID", Integer.toString(postID));
 		ResteasyClient client = new ResteasyClientBuilder().build();
-		ResteasyWebTarget target = client.target(link.URL_CHANGESTATUS_COMMENT);
+		ResteasyWebTarget target = client.target(link.URL_CHANGESTATUS_POST);
 		Response response = target.request().put(Entity.entity(form, MediaType.APPLICATION_FORM_URLENCODED));
 		return response.getStatus();
 	}

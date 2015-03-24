@@ -31,6 +31,7 @@
 	<h4>Top New Post</h4>
 	<table>
 		<c:forEach items="${Posts}" var="post">
+			<c:if test="${post.status == 'Available' || SessionUser.id == post.authorID }">
 			<tr>
 				<td>Author</td>
 				<td>${post.username}</td>
@@ -55,8 +56,23 @@
 						<input type="hidden" name="postid" value="${post.id}"/>
 						<input type="submit" value="Edit"></form>
 					</td>
+					<td>
+						<form action="<c:url value="../Post/ChangeStatus"/>" method="post">
+								<input type="hidden" value="${post.id}" name="postid"/>
+								<input type="submit" value="Change Status"/>
+						</form>
+					</td>
+					<c:if test="${post.status == 'Delete'}">
+						<td>
+							<form action="<c:url value="../Post/DeletePost"/>" method="post">
+								<input type="hidden" value="${post.id}" name="postid"/>
+								<input type="submit" value="X"/>
+							</form>
+						</td>
+					</c:if>
 				</c:if>
 			</tr>
+			</c:if>
 		</c:forEach>
 	</table>
 </body>

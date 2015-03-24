@@ -5,6 +5,7 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -32,12 +33,13 @@ public class CommentController {
 		comment.setPostID(postid);
 		comment.setContent(content);
 		if(!commentservice.createNewComment(comment)){
-			atr.addFlashAttribute("SystemMessage", "Validation Error!!!");
+			atr.addFlashAttribute("SystemMessage", commentservice.getMessageError());
+			return "redirect:"+currentURL;
 		}
 		else{
 			atr.addFlashAttribute("SystemMessage", "New comment has created in this post!!!");
+			return "redirect:/Post/PostDisplay?id="+postid;
 		}
-		return "redirect:"+currentURL;
 	}
 	@RequestMapping(value="EditComment",method = RequestMethod.POST)
 	public String editcomment(@RequestParam("content")String content, @RequestParam("commentid")int commentid,
@@ -46,7 +48,29 @@ public class CommentController {
 		if(!commentservice.editComment(commentid, content)){
 			atr.addFlashAttribute("SystemMessage", commentservice.getMessageError());
 		}else{
-			atr.addFlashAttribute("SystemMessage", "Comment has updated!!!");;
+			atr.addFlashAttribute("SystemMessage", "Comment has updated!!!");
+		}
+		return "redirect:"+currentURL;
+	}
+	@RequestMapping(value="ChangeStatus",method = RequestMethod.POST)
+	public String changestatus(@RequestParam("commentid")int commentid, RedirectAttributes atr,
+			Model model, HttpServletRequest request){
+		String currentURL = request.getHeader("Referer");
+		if(!commentservice.changeStatus(commentid)){
+			atr.addFlashAttribute("SystemMessage", commentservice.getMessageError());
+		} else{
+			atr.addFlashAttribute("SystemMessage", "Comment's has change Status");
+		}
+		return "redirect:"+currentURL;
+	}
+	@RequestMapping(value="DeleteComment",method = RequestMethod.POST)
+	public String deletecomment(@RequestParam("commentid")int commentid, RedirectAttributes atr,
+			Model model, HttpServletRequest request){
+		String currentURL = request.getHeader("Referer");
+		if(!commentservice.deleteComment(commentid)){
+			atr.addFlashAttribute("SystemMessage", commentservice.getMessageError());
+		}else{
+			atr.addFlashAttribute("SystemMessage", "Comment's has removed!!!");
 		}
 		return "redirect:"+currentURL;
 	}

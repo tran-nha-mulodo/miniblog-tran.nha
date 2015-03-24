@@ -97,7 +97,7 @@ public class UserController {
 	
 	@RequestMapping(value = "Welcome", method = RequestMethod.GET)
 	public String welcomePage(Model model){
-		List<Post> posts = new ArrayList<Post>();
+		List<Post> posts = null;
 		posts =	postService.getAllPost();
 		model.addAttribute("Posts", posts);
 		return "welcome";

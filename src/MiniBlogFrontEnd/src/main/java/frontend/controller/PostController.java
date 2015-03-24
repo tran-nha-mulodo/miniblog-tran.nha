@@ -64,6 +64,24 @@ public class PostController {
 		}
 		return "redirect:/Post/PostDisplay?id="+postid;
 	}
+	@RequestMapping(value="ChangeStatus", method = RequestMethod.POST)
+	public String changestatus(@RequestParam("postid")int postid, Model model, RedirectAttributes atr){
+		if(!postService.changeStatus(postid)){
+			atr.addFlashAttribute("ErrorMessage", postService.getMessageError());
+		}else{
+			atr.addFlashAttribute("SystemMessage", "Post has changed status!");
+		}
+		return "redirect:/User/Welcome";
+	}
+	@RequestMapping(value="DeletePost",method=RequestMethod.POST)
+	public String deletepost(@RequestParam("postid")int postid, RedirectAttributes atr){
+		if(!postService.detelePost(postid)){
+			atr.addFlashAttribute("ErrorMessage", postService.getMessageError());
+		}else{
+			atr.addFlashAttribute("SystemMessage", "Post has deleted!");
+		}
+		return "redirect:/User/Welcome";
+	}
 	/*---------------------------
 	 --------Return page---------
 	 ---------------------------*/
@@ -78,7 +96,7 @@ public class PostController {
 	public String displaypostPage(@RequestParam("id")int postID,Model model){
 		Post post = new Post(); 
 		post =	postService.getPostInfo(postID);
-		List<Comment> comments = new ArrayList<Comment>();
+		List<Comment> comments = null;
 		comments =	commentService.getCommentForPost(postID);
 		model.addAttribute("Post", post);
 		model.addAttribute("Comments", comments);

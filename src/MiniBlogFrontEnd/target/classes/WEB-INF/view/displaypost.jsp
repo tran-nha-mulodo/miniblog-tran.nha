@@ -19,6 +19,7 @@
 	<h1>MiniBlog</h1>
 	<h3>Post Details</h3>
 	${SystemMessage}
+	<br/>
 	<table>
 		<tr>
 			<td>Title</td>
@@ -33,30 +34,49 @@
 			<td>Create by ${Post.username} at ${Post.create_date} (Modified at ${post.modify_date})</td>
 		</tr>
 	</table>
+	<br/>
 	<table>
 		<c:forEach items="${Comments}" var="comment">
-			<tr>
-				<td>${comment.username}</td>
-			</tr>
-			<tr>
-				<td>${comment.content}</td>
-			</tr>
-			<tr>
-				<td>${comment.create_date}</td>
-			</tr>
+			<c:if test='${comment.status == "Available" || SessionUser.id == comment.authorID}'>
+				<tr>
+					<td>${comment.username}</td><td>${comment.status}</td>
+				</tr>
+				<tr>
+					<td>${comment.content}</td>
+				</tr>
+				<tr>
+					<td>${comment.create_date}</td>
+				</tr>
 			<c:if test="${SessionUser.id == comment.authorID}">
-				<form action="<c:url value="../Comment/EditComment"/>" method="post">
 					<tr>
 						<td>
-							<input type="text" maxleght="500" name="content" required/>
+						<form action="<c:url value="../Comment/EditComment"/>" method="post">
+							<input type="text" maxlength="500" name="content" required/>
 							<input type="hidden" value="${comment.id}" name="commentid"/>
 							<input type="submit" value="Edit"/>
+						</form>
 						</td>
+				
+						<td>
+							<form action="<c:url value="../Comment/ChangeStatus"/>" method="post">
+								<input type="hidden" value="${comment.id}" name="commentid"/>
+								<input type="submit" value="Change Status"/>
+							</form>
+						</td>
+					<c:if test="${comment.status == 'Delete'}">
+							<td>
+								<form action="<c:url value="../Comment/DeleteComment"/>" method="post">
+									<input type="hidden" value="${comment.id}" name="commentid"/>
+									<input type="submit" value="X"/>
+								</form>
+							</td>
+						</c:if>
 					</tr>
-				</form>
+				</c:if>
 			</c:if>
 		</c:forEach>
 	</table>
+	<br/>
 	<table>
 		Create new comment
 		<tr>
