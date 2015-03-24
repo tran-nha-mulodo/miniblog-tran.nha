@@ -38,12 +38,14 @@ public class UserBlogDAOImpl implements UserBlogDAO {
 		Session session = this.sessionFactory.openSession();
 		Transaction tx = session.beginTransaction();
 		List<UserBlog> listUser = session.createQuery("from UserBlog").list();
+		tx.commit();
 		return listUser;
 	}
 
 	public List<UserBlog> searchUserByName(String searchString) {
 		Session session = this.sessionFactory.getCurrentSession();
 		Transaction tx = session.beginTransaction();
+		List<UserBlog> users = null;
 		Query query = session
 				.createSQLQuery(
 						"SELECT userblog.id, userblog.Username, userblog.Firstname,"
@@ -52,7 +54,9 @@ public class UserBlogDAOImpl implements UserBlogDAO {
 							+ "AGAINST (:searchString)")
 				.setParameter("searchString", searchString)
 				.setResultTransformer(Transformers.ALIAS_TO_ENTITY_MAP);
-		if (query.list().size()<1) {
+		users=query.list();
+		tx.commit();
+		if (users.size()<1) {
 			return null;
 		}else {
 			return query.list();

@@ -49,7 +49,7 @@ public class CommentServiceImpl implements CommentService {
 			return false;
 		} else {
 			commentDAOImpl.deleteComment(commentID);
-			return false;
+			return true;
 		}
 	}
 

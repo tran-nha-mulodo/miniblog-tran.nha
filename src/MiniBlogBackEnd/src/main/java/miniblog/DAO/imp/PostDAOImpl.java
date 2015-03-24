@@ -31,6 +31,7 @@ public class PostDAOImpl implements PostDAO {
 		Session session = sessionFactory.getCurrentSession();
 		Transaction tx = session.beginTransaction();
 		List<Post> posts = session.createQuery("FROM Post").list();
+		tx.commit();
 		return checkNullListResult(posts);
 	}
 
@@ -40,6 +41,7 @@ public class PostDAOImpl implements PostDAO {
 		List<Post> posts = session
 				.createQuery("FROM Post P WHERE P.Author.id = :authorID ORDER BY P.Modify_date DESC")
 				.setParameter("authorID", authorID).list();
+		tx.commit();
 		return checkNullListResult(posts);
 	}
 	
@@ -52,6 +54,7 @@ public class PostDAOImpl implements PostDAO {
 				+ "ORDER BY post.Modify_date DESC")
 				.setParameter("searchString", searchString).setResultTransformer(Transformers.ALIAS_TO_ENTITY_MAP);
 		List<Post> posts = query.list();
+		tx.commit();
 		return checkNullListResult(posts);
 	}
 
@@ -98,7 +101,7 @@ public class PostDAOImpl implements PostDAO {
 		Session session = sessionFactory.getCurrentSession();
 		Transaction tx = session.beginTransaction();
 		Post post = (Post) session.get(Post.class, postID);
-		if (post.getStatus().equals("Delete")) {
+		if (post.getStatus().equalsIgnoreCase("Delete")) {
 			return true;
 		}
 		return false;

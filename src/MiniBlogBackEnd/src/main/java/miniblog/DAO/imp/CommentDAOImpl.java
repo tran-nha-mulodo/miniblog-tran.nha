@@ -60,8 +60,10 @@ public class CommentDAOImpl implements CommentDAO{
 	public List<Comment> getCommentsForPost(int postID) {
 		Session session = sessionFactory.getCurrentSession();
 		Transaction tx = session.beginTransaction();
-		List<Comment> comments = session.createQuery("FROM Comment C WHERE C.Post_id.id = :postID")
+		List<Comment> comments = null;
+		comments = session.createQuery("FROM Comment C WHERE C.Post_id.id = :postID")
 				.setParameter("postID", postID).list();
+		tx.commit();
 		return checkNullListResult(comments);
 	}
 
@@ -70,6 +72,7 @@ public class CommentDAOImpl implements CommentDAO{
 		Transaction tx = session.beginTransaction();
 		List<Comment> comments = session.createQuery("FROM Comment C WHERE C.Author_id.id = :userID")
 				.setParameter("userID",userID).list();
+		tx.commit();
 		return checkNullListResult(comments);
 	}
 
@@ -87,7 +90,7 @@ public class CommentDAOImpl implements CommentDAO{
 		Session session = sessionFactory.getCurrentSession();
 		Transaction tx = session.beginTransaction();
 		Comment comment = (Comment) session.get(Comment.class, commentID);
-		if (comment.getStatus().equals("Delete")) {
+		if (comment.getStatus().equalsIgnoreCase("Delete")) {
 			return true;
 		}
 		return false;
